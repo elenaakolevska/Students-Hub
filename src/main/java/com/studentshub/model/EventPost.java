@@ -1,5 +1,6 @@
 package com.studentshub.model;
 
+import com.studentshub.model.enumerations.EventCategory;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 

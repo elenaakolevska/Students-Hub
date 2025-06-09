@@ -1,7 +1,7 @@
 package com.studentshub.model;
 
+import com.studentshub.model.enumerations.PostCategory;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
