@@ -15,4 +15,20 @@ public class GroupChatMembers {
 
     @ManyToOne
     private User user;
+
+    public GroupChat getGroup() {
+        return group;
+    }
+
+    public void setGroup(GroupChat group) {
+        this.group = group;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }
