@@ -2,7 +2,11 @@ package com.studentshub.service;
 
 import com.studentshub.model.User;
 
-public interface UserService {
+import java.util.List;
+
+public interface UserService
+{
+    List<User> findAll();
     User createUser(User user);
     User getUserById(Long id);
     User getUserByUsername(String username);

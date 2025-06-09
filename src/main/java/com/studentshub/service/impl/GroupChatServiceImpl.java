@@ -3,6 +3,7 @@ package com.studentshub.service.impl;
 import com.studentshub.model.GroupChat;
 import com.studentshub.model.GroupChatMembers;
 import com.studentshub.model.User;
+import com.studentshub.model.exceptions.PostNotFoundException;
 import com.studentshub.repository.GroupChatMembersRepository;
 import com.studentshub.repository.GroupChatRepository;
 import com.studentshub.service.GroupChatService;
@@ -21,6 +22,12 @@ public class GroupChatServiceImpl implements GroupChatService {
                                 GroupChatMembersRepository groupChatMembersRepository) {
         this.groupChatRepository = groupChatRepository;
         this.groupChatMembersRepository = groupChatMembersRepository;
+    }
+
+    @Override
+    public GroupChat getGroupChatById(Long id) {
+        return groupChatRepository.findById(id)
+                .orElseThrow(() -> new PostNotFoundException(id));
     }
 
     @Override

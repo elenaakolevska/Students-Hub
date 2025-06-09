@@ -16,4 +16,61 @@ public class HousingPost extends Post {
     private boolean isFound;
     @ManyToMany
     private List<Tag> tags;
+
+    public String getMunicipality() {
+        return municipality;
+    }
+
+    public void setMunicipality(String municipality) {
+        this.municipality = municipality;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
+    }
+
+    public boolean isFound() {
+        return isFound;
+    }
+
+    public void setFound(boolean found) {
+        isFound = found;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
+
+    public HousingPost(String municipality, String location, Double price, List<String> images, boolean isFound, List<Tag> tags) {
+        this.municipality = municipality;
+        this.location = location;
+        this.price = price;
+        this.images = images;
+        this.isFound = isFound;
+        this.tags = tags;
+    }
 }
