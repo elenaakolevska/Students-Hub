@@ -17,11 +17,23 @@ public class EventPostServiceImpl implements EventPostService {
     public EventPostServiceImpl(EventPostRepository eventPostRepository) {
         this.eventPostRepository = eventPostRepository;
     }
+    @Override
+    public List<EventPost> getAllEventPosts() {
+        return eventPostRepository.findAll();
+    }
 
     @Override
-    public EventPost createEventPost(EventPost eventPost) {
-        return eventPostRepository.save(eventPost);
+    public EventPost createEventPost(EventPost post) {
+        EventPost newPost = new EventPost();
+        newPost.setCategory(post.getCategory());
+        newPost.setLocation(post.getLocation());
+        newPost.setFree(post.isFree());
+        newPost.setPrice(post.getPrice());
+        newPost.setOrganizer(post.getOrganizer());
+        newPost.setImageUrl(post.getImageUrl());
+        return eventPostRepository.save(newPost);
     }
+
 
     @Override
     public List<EventPost> getEventPostsByCategory(EventCategory category) {
@@ -35,8 +47,18 @@ public class EventPostServiceImpl implements EventPostService {
     }
 
     @Override
-    public EventPost updateEventPost(EventPost eventPost) {
-        return eventPostRepository.save(eventPost);
+    public EventPost updateEventPost(Long id, EventPost updatedPost) {
+        EventPost existingPost = eventPostRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("EventPost not found with id: " + id));
+
+        existingPost.setCategory(updatedPost.getCategory());
+        existingPost.setLocation(updatedPost.getLocation());
+        existingPost.setFree(updatedPost.isFree());
+        existingPost.setPrice(updatedPost.getPrice());
+        existingPost.setOrganizer(updatedPost.getOrganizer());
+        existingPost.setImageUrl(updatedPost.getImageUrl());
+
+        return eventPostRepository.save(existingPost);
     }
 
     @Override

@@ -1,0 +1,61 @@
+package com.studentshub.service.impl;
+import com.studentshub.model.HousingPost;
+import com.studentshub.model.exceptions.PostNotFoundException;
+import com.studentshub.model.exceptions.ResourceNotFoundException;
+import com.studentshub.repository.HousingPostRepository;
+import com.studentshub.service.HousingPostService;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class HousingPostServiceImpl implements HousingPostService {
+
+    private final HousingPostRepository repository;
+
+    public HousingPostServiceImpl(HousingPostRepository repository) {
+        this.repository = repository;
+    }
+
+    @Override
+    public HousingPost create(HousingPost post) {
+        HousingPost newPost = new HousingPost();
+        newPost.setMunicipality(post.getMunicipality());
+        newPost.setLocation(post.getLocation());
+        newPost.setPrice(post.getPrice());
+        newPost.setImages(post.getImages());
+        newPost.setFound(post.isFound());
+        newPost.setTags(post.getTags());
+        return repository.save(newPost);
+    }
+
+    @Override
+    public HousingPost findById(Long id) {
+        return repository.findById(id).orElseThrow(() -> new PostNotFoundException(id));
+    }
+
+    @Override
+    public List<HousingPost> findAll() {
+        return repository.findAll();
+    }
+
+    @Override
+    public HousingPost update(Long id, HousingPost updatedPost) {
+        HousingPost existingPost = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("HousingPost not found with id: " + id));
+
+        existingPost.setMunicipality(updatedPost.getMunicipality());
+        existingPost.setLocation(updatedPost.getLocation());
+        existingPost.setPrice(updatedPost.getPrice());
+        existingPost.setImages(updatedPost.getImages());
+        existingPost.setFound(updatedPost.isFound());
+        existingPost.setTags(updatedPost.getTags());
+
+        return repository.save(existingPost);
+    }
+
+    @Override
+    public void delete(Long id) {
+        repository.deleteById(id);
+    }
+}
