@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 
 @Entity
-@NoArgsConstructor
+
 public class GroupChatMembers {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,6 +15,15 @@ public class GroupChatMembers {
 
     @ManyToOne
     private User user;
+
+    public GroupChatMembers(Long id, GroupChat group, User user) {
+        this.id = id;
+        this.group = group;
+        this.user = user;
+    }
+
+    public GroupChatMembers() {
+    }
 
     public GroupChat getGroup() {
         return group;

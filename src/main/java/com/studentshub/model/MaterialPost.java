@@ -1,18 +1,35 @@
 package com.studentshub.model;
 
+import com.studentshub.model.enumerations.PostCategory;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@NoArgsConstructor
 public class MaterialPost extends Post {
     private Double rating;
     private String fileUrl;
     @ManyToMany
     private List<Tag> tags;
+
+    public MaterialPost(Double rating, String fileUrl, List<Tag> tags) {
+        this.rating = rating;
+        this.fileUrl = fileUrl;
+        this.tags = tags;
+    }
+
+    public MaterialPost() {
+    }
+
+    public MaterialPost(Long id, String title, String description, LocalDateTime createdAt, User owner, PostCategory category, Double rating, String fileUrl, List<Tag> tags) {
+        super(id, title, description, createdAt, owner, category);
+        this.rating = rating;
+        this.fileUrl = fileUrl;
+        this.tags = tags;
+    }
 
     public Double getRating() {
         return rating;
