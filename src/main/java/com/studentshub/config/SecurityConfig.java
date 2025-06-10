@@ -23,11 +23,11 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final PasswordEncoder passwordEncoder;
+    private final CustomUsernamePasswordAuthenticationProvider authProvider;
 
-
-    public SecurityConfig(PasswordEncoder passwordEncoder) {
+    public SecurityConfig(PasswordEncoder passwordEncoder, CustomUsernamePasswordAuthenticationProvider authProvider) {
         this.passwordEncoder = passwordEncoder;
-
+        this.authProvider = authProvider;
     }
 
     @Bean
@@ -48,7 +48,7 @@ public class SecurityConfig {
                 .formLogin((form) -> form
                         .loginPage("/users/login")
                         .permitAll()
-                        .failureUrl("/login?error=BadCredentials")
+                        .failureUrl("/users/login?error=BadCredentials")
                         .defaultSuccessUrl("/", true)
                 )
                 .logout((logout) -> logout
@@ -63,37 +63,37 @@ public class SecurityConfig {
     }
 
     // In Memory Authentication
-        @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails user1 = User.builder()
-                .username("elena.atanasoska")
-                .password(passwordEncoder.encode("ea"))
-                .roles("USER")
-                .build();
-        UserDetails user2 = User.builder()
-                .username("darko.sasanski")
-                .password(passwordEncoder.encode("ds"))
-                .roles("USER")
-                .build();
-        UserDetails user3 = User.builder()
-                .username("ana.todorovska")
-                .password(passwordEncoder.encode("at"))
-                .roles("USER")
-                .build();
-        UserDetails admin = User.builder()
-                .username("admin")
-                .password(passwordEncoder.encode("admin"))
-                .roles("ADMIN")
-                .build();
-
-        return new InMemoryUserDetailsManager(user1, user2, user3, admin);
-    }
-
-//    @Bean
-//    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
-//        AuthenticationManagerBuilder authenticationManagerBuilder =
-//                http.getSharedObject(AuthenticationManagerBuilder.class);
-//        authenticationManagerBuilder.authenticationProvider(authProvider);
-//        return authenticationManagerBuilder.build();
+//        @Bean
+//    public UserDetailsService userDetailsService() {
+//        UserDetails user1 = User.builder()
+//                .username("elena.atanasoska")
+//                .password(passwordEncoder.encode("ea"))
+//                .roles("USER")
+//                .build();
+//        UserDetails user2 = User.builder()
+//                .username("darko.sasanski")
+//                .password(passwordEncoder.encode("ds"))
+//                .roles("USER")
+//                .build();
+//        UserDetails user3 = User.builder()
+//                .username("ana.todorovska")
+//                .password(passwordEncoder.encode("at"))
+//                .roles("USER")
+//                .build();
+//        UserDetails admin = User.builder()
+//                .username("admin")
+//                .password(passwordEncoder.encode("admin"))
+//                .roles("ADMIN")
+//                .build();
+//
+//        return new InMemoryUserDetailsManager(user1, user2, user3, admin);
 //    }
+
+    @Bean
+    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
+        AuthenticationManagerBuilder authenticationManagerBuilder =
+                http.getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder.authenticationProvider(authProvider);
+        return authenticationManagerBuilder.build();
+    }
 }

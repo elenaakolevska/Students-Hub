@@ -1,5 +1,6 @@
 package com.studentshub.web;
 import com.studentshub.model.*;
+import com.studentshub.model.exceptions.DuplicateUsernameException;
 import com.studentshub.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
@@ -35,9 +36,15 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute User user) {
-        User savedUser = userService.createUser(user);
-        return "redirect:/users/" + savedUser.getId();
+    public String registerUser(@ModelAttribute User user,Model model) {
+        try {
+            User savedUser = userService.createUser(user);
+            return "redirect:/users/login";
+        } catch (DuplicateUsernameException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("user", user);
+            return "users/register";
+        }
 
     }
 

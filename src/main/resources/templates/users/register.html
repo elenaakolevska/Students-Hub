@@ -30,8 +30,8 @@
                             <input type="password" id="password" th:field="*{password}" class="form-control" placeholder="Enter your password" required>
                         </div>
 
-                        <div th:if="${hasError}" class="alert alert-danger">
-                            <p th:text="${error}"></p>
+                        <div th:if="${errorMessage}" class="alert alert-danger">
+                            <p th:text="${errorMessage}"></p>
                         </div>
 
                         <div class="d-grid mb-3">

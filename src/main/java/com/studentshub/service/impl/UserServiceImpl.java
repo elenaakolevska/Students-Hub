@@ -1,6 +1,7 @@
 package com.studentshub.service.impl;
 
 import com.studentshub.model.*;
+import com.studentshub.model.exceptions.DuplicateUsernameException;
 import com.studentshub.model.exceptions.ResourceNotFoundException;
 import com.studentshub.repository.UserRepository;
 import com.studentshub.service.UserService;
@@ -28,6 +29,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User user) {
+        if(userRepository.findByUsername(user.getUsername()).isPresent()){
+            throw new DuplicateUsernameException(user.getUsername());
+        }
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
 
