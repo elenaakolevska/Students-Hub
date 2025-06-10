@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
-@NoArgsConstructor
+//@NoArgsConstructor
 public class HousingPost extends Post {
     private String municipality;
     private String location;
@@ -63,6 +63,9 @@ public class HousingPost extends Post {
 
     public void setTags(List<Tag> tags) {
         this.tags = tags;
+    }
+
+    public HousingPost() {
     }
 
     public HousingPost(String municipality, String location, Double price, List<String> images, boolean isFound, List<Tag> tags) {

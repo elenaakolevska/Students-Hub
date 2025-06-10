@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 
 @Entity
-@NoArgsConstructor
+//@NoArgsConstructor
 public class EventPost extends Post {
     @Enumerated(EnumType.STRING)
     private EventCategory category;
@@ -16,7 +16,17 @@ public class EventPost extends Post {
     private String organizer;
     private String imageUrl;
 
+    public EventPost() {
+    }
 
+    public EventPost(EventCategory category, String location, boolean isFree, Double price, String organizer, String imageUrl) {
+        this.category = category;
+        this.location = location;
+        this.isFree = isFree;
+        this.price = price;
+        this.organizer = organizer;
+        this.imageUrl = imageUrl;
+    }
 
     public void setCategory(EventCategory category) {
         this.category = category;
