@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Насловна</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+
+<!-- Вметнување на navbar -->
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<!-- Панел со име и мото -->
+<section class="hero">
+    <img src="/images/banner.jpg" alt="Banner">
+    <h1>Име на апликацијата</h1>
+    <p>Кратко мото што ја опишува целта</p>
+</section>
+
+<!-- Категории како картички -->
+<section>
+    <h2>Категории</h2>
+    <div class="card-container">
+        <div class="card" th:each="cat : ${categories}">
+            <h3 th:text="${cat.name}">Име</h3>
+            <p th:text="${cat.description}">Опис</p>
+        </div>
+    </div>
+</section>
+
+<!-- Најнови вести -->
+<section>
+    <h2>Најново од сите области</h2>
+    <div class="news-container">
+        <div class="news" th:each="news : ${latestNews}">
+            <h4 th:text="${news.title}">Наслов</h4>
+            <p th:text="${news.shortContent}">Кратка содржина...</p>
+        </div>
+    </div>
+</section>
+
+<!-- За нас -->
+<section>
+    <h2>За нас</h2>
+    <p>Ние сме тим на ентузијасти што ја направија оваа апликација за...</p>
+</section>
+
+<!-- Футер -->
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>
