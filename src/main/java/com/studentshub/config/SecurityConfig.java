@@ -66,17 +66,17 @@ public class SecurityConfig {
         @Bean
     public UserDetailsService userDetailsService() {
         UserDetails user1 = User.builder()
-                .username("elena.atanasoska")
+                .username("elena.kolevska")
                 .password(passwordEncoder.encode("ea"))
                 .roles("USER")
                 .build();
         UserDetails user2 = User.builder()
-                .username("darko.sasanski")
+                .username("ljubica.jovanoska")
                 .password(passwordEncoder.encode("ds"))
                 .roles("USER")
                 .build();
         UserDetails user3 = User.builder()
-                .username("ana.todorovska")
+                .username("damjan.karadakoski")
                 .password(passwordEncoder.encode("at"))
                 .roles("USER")
                 .build();
