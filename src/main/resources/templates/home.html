@@ -12,6 +12,7 @@
 <div th:replace="fragments/navbar :: navbar"></div>
 
 <!-- Херој секција -->
+<<<<<<< HEAD
 <section>
     <img src="/images/banner.jpg" alt="Banner" class="hero-image">
     <div class="hero-content">
@@ -29,6 +30,22 @@
             <h3 class="card-title" th:text="${cat.name}">Име</h3>
             <!-- <p th:text="${cat.description}">Опис</p> -->
 >>>>>>> f68ee7839e9852e2464d1ef4daff1a082da69b07
+=======
+<section class="hero">
+
+    <img src="/images/banner.jpg" alt="Banner">
+    <h1>Student's hub</h1>
+    <p>Кратко мото што ја опишува целта</p>
+</section>
+
+<section>
+    <h2>Категории</h2>
+    <div class="card-container">
+        <div class="card" th:each="cat : ${categories}">
+            <h3 th:text="${cat.name}">Име</h3>
+<!--            <p th:text="${cat.description}">Опис</p>-->
+
+>>>>>>> 2415858a10e804dea6f136ec614529a20531528b
         </div>
     </div>
 </section>
