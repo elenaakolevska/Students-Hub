@@ -3,14 +3,17 @@
 <head>
     <title>Насловна</title>
     <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
-<!-- Вметнување на navbar -->
+<!-- Навигациска лента DAMJAN OVDE KOM AKU NE RAB /-->
 <div th:replace="fragments/navbar :: navbar"></div>
 
-<!-- Панел со име и мото -->
+<!-- Херој секција -->
 <section class="hero">
+
     <img src="/images/banner.jpg" alt="Banner">
     <h1>Student's hub</h1>
     <p>Кратко мото што ја опишува целта</p>
@@ -22,25 +25,26 @@
         <div class="card" th:each="cat : ${categories}">
             <h3 th:text="${cat.name}">Име</h3>
 <!--            <p th:text="${cat.description}">Опис</p>-->
+
         </div>
     </div>
 </section>
 
 <!-- Најнови вести -->
-<section>
-    <h2>Најново од сите области</h2>
+<section class="section news">
+    <h2 class="section-title">Најново од сите области</h2>
     <div class="news-container">
-        <div class="news" th:each="news : ${latestNews}">
-            <h4 th:text="${news.title}">Наслов</h4>
-            <p th:text="${news.shortContent}">Кратка содржина...</p>
+        <div class="news-card" th:each="news : ${latestNews}">
+            <h4 class="news-title" th:text="${news.title}">Наслов</h4>
+            <p class="news-summary" th:text="${news.shortContent}">Кратка содржина...</p>
         </div>
     </div>
 </section>
 
 <!-- За нас -->
-<section>
-    <h2>За нас</h2>
-    <p>Ние сме тим на ентузијасти што ја направија оваа апликација за...</p>
+<section class="section about">
+    <h2 class="section-title">За нас</h2>
+    <p class="about-text">Ние сме тим на ентузијасти што ја направија оваа апликација за...</p>
 </section>
 
 <!-- Футер -->
