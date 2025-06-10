@@ -12,17 +12,16 @@
 <!-- Панел со име и мото -->
 <section class="hero">
     <img src="/images/banner.jpg" alt="Banner">
-    <h1>Име на апликацијата</h1>
+    <h1>Student's hub</h1>
     <p>Кратко мото што ја опишува целта</p>
 </section>
 
-<!-- Категории како картички -->
 <section>
     <h2>Категории</h2>
     <div class="card-container">
         <div class="card" th:each="cat : ${categories}">
             <h3 th:text="${cat.name}">Име</h3>
-            <p th:text="${cat.description}">Опис</p>
+<!--            <p th:text="${cat.description}">Опис</p>-->
         </div>
     </div>
 </section>
