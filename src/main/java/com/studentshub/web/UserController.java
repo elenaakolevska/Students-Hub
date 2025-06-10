@@ -1,6 +1,7 @@
 package com.studentshub.web;
 import com.studentshub.model.*;
 import com.studentshub.service.*;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -35,8 +36,9 @@ public class UserController {
 
     @PostMapping("/register")
     public String registerUser(@ModelAttribute User user) {
-        userService.createUser(user);
-        return "redirect:/users/" + user.getId();
+        User savedUser = userService.createUser(user);
+        return "redirect:/users/" + savedUser.getId();
+
     }
 
     @GetMapping("/login")
@@ -44,4 +46,7 @@ public class UserController {
         model.addAttribute("user", new User());
         return "users/login";
     }
+
+
+
 }
