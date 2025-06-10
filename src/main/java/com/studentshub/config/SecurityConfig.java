@@ -63,12 +63,16 @@ public class SecurityConfig {
     }
 
 
+
 //    @Bean
 //    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
 //        AuthenticationManagerBuilder authenticationManagerBuilder =
 //                http.getSharedObject(AuthenticationManagerBuilder.class);
 //        authenticationManagerBuilder.authenticationProvider(authProvider);
 //        return authenticationManagerBuilder.build();
+
+    // In Memory Authentication
+
 
 //        @Bean
 //    public UserDetailsService userDetailsService() {
@@ -96,6 +100,7 @@ public class SecurityConfig {
 //        return new InMemoryUserDetailsManager(user1, user2, user3, admin);
 
 //    }
+
 
     @Bean
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {
