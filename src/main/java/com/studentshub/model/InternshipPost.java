@@ -1,15 +1,35 @@
 package com.studentshub.model;
 
+import com.studentshub.model.enumerations.PostCategory;
 import jakarta.persistence.Entity;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
-@NoArgsConstructor
 public class InternshipPost extends Post {
     private String company;
     private String facultyFilter;
     private String position;
     private String logoUrl;
+
+    public InternshipPost(String company, String facultyFilter, String position, String logoUrl) {
+        this.company = company;
+        this.facultyFilter = facultyFilter;
+        this.position = position;
+        this.logoUrl = logoUrl;
+    }
+
+    public InternshipPost() {
+    }
+
+    public InternshipPost(Long id, String title, String description, LocalDateTime createdAt, User owner, PostCategory category, String company, String facultyFilter, String position, String logoUrl) {
+        super(id, title, description, createdAt, owner, category);
+        this.company = company;
+        this.facultyFilter = facultyFilter;
+        this.position = position;
+        this.logoUrl = logoUrl;
+    }
 
     public String getCompany() {
         return company;

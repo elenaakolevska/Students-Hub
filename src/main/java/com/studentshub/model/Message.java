@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@NoArgsConstructor
 public class Message {
     @Id @GeneratedValue
     private Long id;
@@ -22,6 +21,18 @@ public class Message {
 
     private String content;
     private LocalDateTime timestamp;
+
+    public Message(Long id, User sender, User receiver, GroupChat group, String content, LocalDateTime timestamp) {
+        this.id = id;
+        this.sender = sender;
+        this.receiver = receiver;
+        this.group = group;
+        this.content = content;
+        this.timestamp = timestamp;
+    }
+
+    public Message() {
+    }
 
     public User getSender() {
         return sender;

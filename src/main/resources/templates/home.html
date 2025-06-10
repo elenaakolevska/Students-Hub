@@ -13,20 +13,19 @@
 
 <!-- Херој секција -->
 <section class="hero">
-    <img src="/images/banner.jpg" alt="Banner" class="hero-image">
-    <div class="hero-content">
-        <h1 class="app-title">Име на апликацијата</h1>
-        <p class="app-subtitle">Кратко мото што ја опишува целта</p>
-    </div>
+
+    <img src="/images/banner.jpg" alt="Banner">
+    <h1>Student's hub</h1>
+    <p>Кратко мото што ја опишува целта</p>
 </section>
 
-<!-- Категории -->
-<section class="section categories">
-    <h2 class="section-title">Категории</h2>
+<section>
+    <h2>Категории</h2>
     <div class="card-container">
         <div class="card" th:each="cat : ${categories}">
-            <h3 class="card-title" th:text="${cat.name}">Име</h3>
-            <!-- <p th:text="${cat.description}">Опис</p> -->
+            <h3 th:text="${cat.name}">Име</h3>
+<!--            <p th:text="${cat.description}">Опис</p>-->
+
         </div>
     </div>
 </section>

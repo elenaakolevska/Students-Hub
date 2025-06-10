@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@NoArgsConstructor
+
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +19,17 @@ public class Review {
     private Double rating;
     private LocalDateTime createdAt;
 
+    public Review(Long id, User user, Post post, String content, Double rating, LocalDateTime createdAt) {
+        this.id = id;
+        this.user = user;
+        this.post = post;
+        this.content = content;
+        this.rating = rating;
+        this.createdAt = createdAt;
+    }
+
+    public Review() {
+    }
 
     public User getUser() {
         return user;

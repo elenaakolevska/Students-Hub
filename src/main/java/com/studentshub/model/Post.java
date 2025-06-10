@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Post {
     @Id
@@ -22,6 +21,18 @@ public abstract class Post {
 
     @Enumerated(EnumType.STRING)
     private PostCategory category;
+
+    public Post() {
+    }
+
+    public Post(Long id, String title, String description, LocalDateTime createdAt, User owner, PostCategory category) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.createdAt = createdAt;
+        this.owner = owner;
+        this.category = category;
+    }
 
     public Long getId() {
         return id;

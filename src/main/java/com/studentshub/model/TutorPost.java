@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
-@NoArgsConstructor
 public class TutorPost extends Post {
     private String tutorName;
     private String faculty;
@@ -16,6 +15,17 @@ public class TutorPost extends Post {
 
     @ManyToMany
     private List<Tag> tags;
+
+    public TutorPost(String tutorName, String faculty, boolean worksOnline, Double price, List<Tag> tags) {
+        this.tutorName = tutorName;
+        this.faculty = faculty;
+        this.worksOnline = worksOnline;
+        this.price = price;
+        this.tags = tags;
+    }
+
+    public TutorPost() {
+    }
 
     public String getTutorName() {
         return tutorName;

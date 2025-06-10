@@ -11,6 +11,15 @@ public class GroupChat {
     @ManyToOne
     private User createdBy;
 
+    public GroupChat(Long id, String name, User createdBy) {
+        this.id = id;
+        this.name = name;
+        this.createdBy = createdBy;
+    }
+
+    public GroupChat() {
+    }
+
     public Long getId() {
         return id;
     }

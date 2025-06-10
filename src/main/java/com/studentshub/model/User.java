@@ -8,7 +8,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+
 @NoArgsConstructor
+
+
 @Table(name = "app_user")
 public class User {
 
@@ -36,6 +39,24 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<GroupChatMembers> groupMemberships;
+
+    public User() {
+    }
+
+    public User(Long id, String firstName, String lastName, String username, String email, String password, String education, LocalDateTime createdAt, List<Post> posts, List<Favorite> favorites, List<Message> sentMessages, List<GroupChatMembers> groupMemberships) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.education = education;
+        this.createdAt = createdAt;
+        this.posts = posts;
+        this.favorites = favorites;
+        this.sentMessages = sentMessages;
+        this.groupMemberships = groupMemberships;
+    }
 
     public Long getId() {
         return id;

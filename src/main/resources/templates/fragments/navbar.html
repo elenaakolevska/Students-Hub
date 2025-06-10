@@ -1,5 +1,7 @@
-<nav>
-    <ul>
+
+<nav th:fragment="navbar">
+<ul>
+
         <li><a th:href="@{/}">Дома</a></li>
         <li><a th:href="@{/categories}">Категории</a></li>
         <li><a th:href="@{/about}">За нас</a></li>
@@ -7,7 +9,9 @@
             <a th:href="@{/logout}">Одјава</a>
         </li>
         <li th:if="${#authorization.expression('!isAuthenticated()')}">
-            <a th:href="@{/login}">Најава</a>
+
+            <a th:href="@{users/login}">Најава</a>
+
         </li>
     </ul>
 </nav>
