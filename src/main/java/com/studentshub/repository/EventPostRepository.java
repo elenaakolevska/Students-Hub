@@ -11,6 +11,6 @@ import java.util.List;
 
 @Repository
 public interface EventPostRepository extends JpaRepository<EventPost, Long>, JpaSpecificationExecutor<EventPost> {
-    List<EventPost> findByCategory(EventCategory category);
+    List<EventPost> findByEventCategory(EventCategory eventCategory);
 }
 

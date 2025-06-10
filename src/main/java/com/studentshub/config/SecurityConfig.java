@@ -63,6 +63,7 @@ public class SecurityConfig {
     }
 
     // In Memory Authentication
+
 //        @Bean
 //    public UserDetailsService userDetailsService() {
 //        UserDetails user1 = User.builder()
@@ -88,6 +89,7 @@ public class SecurityConfig {
 //
 //        return new InMemoryUserDetailsManager(user1, user2, user3, admin);
 //    }
+
 
     @Bean
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {

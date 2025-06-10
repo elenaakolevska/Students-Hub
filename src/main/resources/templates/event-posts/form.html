@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Форма за настан</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
 <body>
 <div th:replace="fragments/navbar :: navbar"></div>
@@ -12,22 +13,25 @@
     <input type="hidden" th:field="*{id}"/>
 
     <label>Име:</label>
-    <input type="text" th:field="*{name}" required/>
+    <input type="text" th:field="*{title}" required/>
 
     <label>Категорија:</label>
-    <select th:field="*{category}">
+    <select th:field="*{eventCategory}" required>
+        <option value="" disabled th:if="${eventPost.eventCategory == null}" selected>Избери категорија</option>
         <option th:each="cat : ${T(com.studentshub.model.enumerations.EventCategory).values()}"
-                th:value="${cat}" th:text="${cat}"/>
+                th:value="${cat}" th:text="${cat}"
+                th:selected="${cat} == ${eventPost.eventCategory}">
+        </option>
     </select>
 
     <label>Локација:</label>
     <input type="text" th:field="*{location}" required/>
 
     <label>Слободен влез:</label>
-    <input type="checkbox" th:field="*{freeEntry}"/>
+    <input type="checkbox" th:field="*{free}"/>
 
     <label>Цена:</label>
-    <input type="number" th:field="*{price}" th:disabled="*{freeEntry}" min="0"/>
+    <input type="number" th:field="*{price}" min="0" th:disabled="*{free}"/>
 
     <label>Опис:</label>
     <textarea th:field="*{description}"></textarea>

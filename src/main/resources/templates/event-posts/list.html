@@ -2,39 +2,50 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Настани</title>
-    <link rel="stylesheet" href="/css/styles.css"> <!-- Стилови ако имаш -->
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
 <body>
+
 <div th:replace="fragments/navbar :: navbar"></div>
+<section>
+    <div class="section-header">
+        <h2>Настани</h2>
+    </div>
+    <div class="add-new-container">
+        <a href="/event-posts/create" class="add-btn">+ Додади нов настан</a>
+    </div>
 
-<h1>Настани</h1>
+    <form method="get" th:action="@{/event-posts}" class="filter-form">
+        <label for="category">Филтер по категорија:</label>
+        <select name="category" id="category">
+            <option value="">Сите категории</option>
+            <option th:each="cat : ${T(com.studentshub.model.enumerations.EventCategory).values()}"
+                    th:value="${cat}"
+                    th:text="${cat}"
+                    th:selected="${param.category == cat}">
+            </option>
+        </select>
+        <button type="submit">Филтрирај</button>
+    </form>
 
-<form method="get" th:action="@{/event-posts}">
-    <label for="category">Филтер по категорија:</label>
-    <select name="category" id="category">
-        <option th:each="cat : ${T(com.studentshub.model.enumerations.EventCategory).values()}"
-                th:value="${cat}" th:text="${cat}">Категорија</option>
-    </select>
-    <button type="submit">Филтрирај</button>
-</form>
-
-<div class="card-container">
-    <div class="card" th:each="post : ${eventPosts}">
-        <img th:src="${post.imageUrl}" alt="Слика од настанот" class="card-img"/>
-        <div class="card-body">
-            <h2 th:text="${post.name}">Име на настан</h2>
-            <p><strong>Категорија:</strong> <span th:text="${post.category}"/></p>
-            <p><strong>Локација:</strong> <span th:text="${post.location}"/></p>
-            <p>
-                <strong>Влез:</strong>
-                <span th:text="${post.freeEntry} ? 'Слободен' : 'Цена: ' + post.price + ' ден.'"/>
-            </p>
-            <p><strong>Опис:</strong> <span th:text="${post.description}"/></p>
-            <p><strong>Организатор:</strong> <span th:text="${post.organizer}"/></p>
-            <a th:href="@{'/event-posts/' + ${post.id}}">Види детали</a>
+    <div class="card-container">
+        <div class="card" th:each="post : ${eventPosts}">
+            <img th:src="${post.imageUrl}" alt="Слика од настанот" class="card-img"/>
+            <div class="card-body">
+                <h3 th:text="${post.title}">Име на настан</h3>
+                <p><strong>Категорија:</strong> <span th:text="${post.eventCategory}"/></p>
+                <p><strong>Локација:</strong> <span th:text="${post.location}"/></p>
+                <p>
+                    <strong>Влез:</strong>
+                    <span th:text="${post.free} ? 'Слободен' :   ${post.price} + ' ден.'">Цена</span>
+                </p>
+                <p><strong>Опис:</strong> <span th:text="${post.description}"/></p>
+                <p><strong>Организатор:</strong> <span th:text="${post.organizer}"/></p>
+                <a th:href="@{'/event-posts/' + ${post.id}}" class="details-btn">Види детали</a>
+            </div>
         </div>
     </div>
-</div>
+</section>
 
 <div th:replace="fragments/footer :: footer"></div>
 
