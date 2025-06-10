@@ -7,7 +7,7 @@
             <a th:href="@{/logout}">Одјава</a>
         </li>
         <li th:if="${#authorization.expression('!isAuthenticated()')}">
-            <a th:href="@{/login}">Најава</a>
+            <a th:href="@{users/login}">Најава</a>
         </li>
     </ul>
 </nav>
