@@ -2,30 +2,42 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Детали за настан</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
 <body>
 <div th:replace="fragments/navbar :: navbar"></div>
 
-<h1 th:text="${eventPost.name}">Име на настан</h1>
-<img th:src="${eventPost.imageUrl}" alt="Слика" width="400"/>
+<section class="section">
+    <h2 th:text="${eventPost.title}">Име на настан</h2>
 
-<p><strong>Категорија:</strong> <span th:text="${eventPost.category}"/></p>
-<p><strong>Локација:</strong> <span th:text="${eventPost.location}"/></p>
-<p>
-    <strong>Влез:</strong>
-    <span th:text="${eventPost.freeEntry} ? 'Слободен' : 'Цена: ' + eventPost.price + ' ден.'"/>
-</p>
-<p><strong>Опис:</strong> <span th:text="${eventPost.description}"/></p>
-<p><strong>Организатор:</strong> <span th:text="${eventPost.organizer}"/></p>
+    <div class="card" style="max-width: 700px; height: 550px; margin: 0 auto;">
+        <img th:src="${eventPost.imageUrl}" alt="Слика" class="card-img"/>
 
-<a th:href="@{'/event-posts/edit/' + ${eventPost.id}}">Уреди</a>
-<form th:action="@{'/event-posts/delete/' + ${eventPost.id}}" method="post">
-    <button type="submit">Избриши</button>
-</form>
+        <p><strong>Категорија:</strong> <span th:text="${eventPost.eventCategory}"></span></p>
+        <p><strong>Локација:</strong> <span th:text="${eventPost.location}"></span></p>
+        <p>
+            <strong>Влез:</strong>
+            <span th:text="${eventPost.free} ? 'Слободен' : 'Цена: ' + eventPost.price + ' ден.'"></span>
+        </p>
+        <p><strong>Опис:</strong> <span th:text="${eventPost.description}"></span></p>
+        <p><strong>Организатор:</strong> <span th:text="${eventPost.organizer}"></span></p>
 
-<a href="/event-posts">Назад</a>
+        <div class="btn-group-wrapper">
+            <a th:href="@{'/event-posts/edit/' + ${eventPost.id}}" class="btn-link action-btn edit-btn">Уреди</a>
+
+            <form th:action="@{'/event-posts/delete/' + ${eventPost.id}}" method="post"
+                  onsubmit="return confirm('Дали сте сигурни дека сакате да го избришете настанот?');">
+                <button type="submit" class="btn-link action-btn delete-btn" id="brisi">Избриши</button>
+            </form>
+
+            <a href="/event-posts" class="btn-link action-btn back-btn">Назад</a>
+        </div>
+
+
+
+    </div>
+</section>
 
 <div th:replace="fragments/footer :: footer"></div>
-
 </body>
 </html>
