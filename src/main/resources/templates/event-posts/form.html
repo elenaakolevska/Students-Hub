@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Форма за настан</title>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<h1 th:text="${eventPost.id} != null ? 'Измени настан' : 'Креирај нов настан'"></h1>
+
+<form th:action="${eventPost.id} != null ? @{/event-posts/update} : @{/event-posts}" th:object="${eventPost}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+
+    <label>Име:</label>
+    <input type="text" th:field="*{name}" required/>
+
+    <label>Категорија:</label>
+    <select th:field="*{category}">
+        <option th:each="cat : ${T(com.studentshub.model.enumerations.EventCategory).values()}"
+                th:value="${cat}" th:text="${cat}"/>
+    </select>
+
+    <label>Локација:</label>
+    <input type="text" th:field="*{location}" required/>
+
+    <label>Слободен влез:</label>
+    <input type="checkbox" th:field="*{freeEntry}"/>
+
+    <label>Цена:</label>
+    <input type="number" th:field="*{price}" th:disabled="*{freeEntry}" min="0"/>
+
+    <label>Опис:</label>
+    <textarea th:field="*{description}"></textarea>
+
+    <label>Организатор:</label>
+    <input type="text" th:field="*{organizer}"/>
+
+    <label>Слика (URL):</label>
+    <input type="text" th:field="*{imageUrl}" placeholder="https://..."/>
+
+    <button type="submit">Зачувај</button>
+</form>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>

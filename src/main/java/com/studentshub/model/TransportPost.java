@@ -6,13 +6,23 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@NoArgsConstructor
 public class TransportPost extends Post {
     private LocalDateTime departureDatetime;
     private String providerName;
     private String locationFrom;
     private String locationTo;
     private Double price;
+
+    public TransportPost(LocalDateTime departureDatetime, String providerName, String locationFrom, String locationTo, Double price) {
+        this.departureDatetime = departureDatetime;
+        this.providerName = providerName;
+        this.locationFrom = locationFrom;
+        this.locationTo = locationTo;
+        this.price = price;
+    }
+
+    public TransportPost() {
+    }
 
     public LocalDateTime getDepartureDatetime() {
         return departureDatetime;

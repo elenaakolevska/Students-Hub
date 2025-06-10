@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@NoArgsConstructor
 public class Favorite {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -20,6 +19,16 @@ public class Favorite {
     private Post post;
 
     private LocalDateTime createdAt;
+
+    public Favorite(Long id, User user, Post post, LocalDateTime createdAt) {
+        this.id = id;
+        this.user = user;
+        this.post = post;
+        this.createdAt = createdAt;
+    }
+
+    public Favorite() {
+    }
 
     public User getUser() {
         return user;
