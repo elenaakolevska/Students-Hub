@@ -2,12 +2,15 @@ package com.studentshub.service.impl;
 
 import com.studentshub.model.Post;
 import com.studentshub.model.User;
+import com.studentshub.model.enumerations.PostCategory;
 import com.studentshub.model.exceptions.PostNotFoundException;
 import com.studentshub.repository.PostRepository;
 import com.studentshub.service.PostService;
 import org.springframework.stereotype.Service;
 
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -42,5 +45,15 @@ public class PostServiceImpl implements PostService {
     @Override
     public void deletePost(Long id) {
         postRepository.deleteById(id);
+    }
+
+    @Override
+    public Map<PostCategory, Post> getLatestPostPerCategory() {
+        Map<PostCategory, Post> result = new EnumMap<>(PostCategory.class);
+        for (PostCategory category : PostCategory.values()) {
+            postRepository.findTopByCategoryOrderByCreatedAtDesc(category)
+                    .ifPresent(post -> result.put(category, post));
+        }
+        return result;
     }
 }
