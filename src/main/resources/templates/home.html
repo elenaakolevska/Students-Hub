@@ -2,51 +2,46 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Насловна</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 </head>
 <body>
 
-<!-- Навигациска лента DAMJAN OVDE KOM AKU NE RAB /-->
+<!-- Навигациска лента -->
 <div th:replace="fragments/navbar :: navbar"></div>
 
 <!-- Херој секција -->
-<<<<<<< HEAD
-<section>
-    <img src="/images/banner.jpg" alt="Banner" class="hero-image">
+<section class="section hero container-fluid">
+    <img src="/images/hero-bg.jpg" alt="Banner" class="hero-image">
     <div class="hero-content">
-        <h1 class="app-title">Име на апликацијата</h1>
-        <p class="app-subtitle">Кратко мото што ја опишува целта</p>
+        <h1 class="app-title">Student's Hub</h1>
+        <p class="app-subtitle">Омилената студентска заедница, направена од студенти за студенти</p>
     </div>
 </section>
 
-
-<!-- Категории -->
+<!-- Категории со Swiper carousel -->
 <section class="section categories">
     <h2 class="section-title">Категории</h2>
-    <div class="card-container">
-        <div class="card" th:each="cat : ${categories}">
-            <h3 class="card-title" th:text="${cat.name}">Име</h3>
-            <!-- <p th:text="${cat.description}">Опис</p> -->
->>>>>>> f68ee7839e9852e2464d1ef4daff1a082da69b07
-=======
-<section class="hero">
 
-    <img src="/images/banner.jpg" alt="Banner">
-    <h1>Student's hub</h1>
-    <p>Кратко мото што ја опишува целта</p>
-</section>
-
-<section>
-    <h2>Категории</h2>
-    <div class="card-container">
-        <div class="card" th:each="cat : ${categories}">
-            <h3 th:text="${cat.name}">Име</h3>
-<!--            <p th:text="${cat.description}">Опис</p>-->
-
->>>>>>> 2415858a10e804dea6f136ec614529a20531528b
+    <div class="swiper-container card-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide card" th:each="cat : ${categories}">
+                <h3 class="card-title" th:text="${cat.name}">Име</h3>
+                <!-- <p th:text="${cat.description}">Опис</p> -->
+            </div>
         </div>
+
+        <!-- Навигација -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+
+        <!-- Пагинација -->
+        <div class="swiper-pagination"></div>
     </div>
 </section>
 
@@ -70,5 +65,32 @@
 <!-- Футер -->
 <div th:replace="fragments/footer :: footer"></div>
 
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<!-- Иницијализација на Swiper -->
+<script>
+    const swiper = new Swiper('.swiper-container', {
+        slidesPerView: 3,
+        spaceBetween: 20,
+        loop: true,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        breakpoints: {
+            1024: { slidesPerView: 3 },
+            768: { slidesPerView: 2 },
+            0: { slidesPerView: 1 }
+        }
+    });
+</script>
+
 </body>
 </html>
+
+

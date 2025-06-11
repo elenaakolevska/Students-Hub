@@ -465,8 +465,7 @@ section h2::after {
 
 
 
-/*/////////////*/
-
+/////////////*
 .section-header {
     text-align: center;
     margin-bottom: 10px;
@@ -713,4 +712,36 @@ button[type="submit"]:hover {
     .action-btn {
         width: 100%;
     }
+}
+
+.card-container {
+    padding: 20px 0;
+}
+
+.swiper-slide.card {
+    background: #f9f9f9;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Поправи позиционирање на swiper стрелките и точките */
+.swiper-container {
+    width: 100%;
+    position: relative;
+    padding-bottom: 40px; /* простор за пагинација */
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+    color: #000; /* или друга боја по избор */
+    top: 40%; /* центрирање вертикално */
+    transform: translateY(-50%);
+    z-index: 10;
+}
+
+.swiper-pagination {
+    bottom: 10px !important;
+    text-align: center;
 }
