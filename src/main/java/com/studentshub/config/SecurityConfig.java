@@ -25,9 +25,14 @@ public class SecurityConfig {
     private final PasswordEncoder passwordEncoder;
     private final CustomUsernamePasswordAuthenticationProvider authProvider;
 
-    public SecurityConfig(PasswordEncoder passwordEncoder, CustomUsernamePasswordAuthenticationProvider authProvider) {
+    private final CustomAuthenticationFailureHandler failureHandler;
+
+    public SecurityConfig(PasswordEncoder passwordEncoder,
+                          CustomUsernamePasswordAuthenticationProvider authProvider,
+                          CustomAuthenticationFailureHandler failureHandler) {
         this.passwordEncoder = passwordEncoder;
         this.authProvider = authProvider;
+        this.failureHandler = failureHandler;
     }
 
     @Bean
@@ -39,7 +44,7 @@ public class SecurityConfig {
                         .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
                 )
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/users/*", "/assets/**", "/register","/*","/","/home","/csss")
+                        .requestMatchers("/", "/users/*", "/assets/**", "/register","/*","/","/home","/css","/images/**")
                         .permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest()
@@ -48,6 +53,7 @@ public class SecurityConfig {
                 .formLogin((form) -> form
                         .loginPage("/users/login")
                         .permitAll()
+                        .failureHandler(failureHandler)
                         .failureUrl("/users/login?error=BadCredentials")
                         .defaultSuccessUrl("/", true)
                 )
