@@ -24,13 +24,14 @@ public class FavoriteController {
         this.postService = postService;
     }
 
-    @GetMapping("/user/{userId}")
-    public String listFavorites(@PathVariable Long userId, Model model) {
-        User user = new User();
-        user.setId(userId);
+    @GetMapping
+    public String listFavorites(Model model,
+                                @AuthenticationPrincipal UserDetails userDetails) {
+        User user = userService.getUserByUsername(userDetails.getUsername());
         model.addAttribute("favorites", favoriteService.getFavoritesByUser(user));
         return "favorites/list";
     }
+
 
     @GetMapping("/favorites/add/{postId}")
     public String addFavorite(@PathVariable Long postId,
