@@ -247,18 +247,20 @@ section h2::after {
 /* --- Footer --- */
 /* Овие стилови се претпоставени за структурата на footer-от што ќе ја добиете од Thymeleaf фрагментот. */
 /* Ќе треба да ги прилагодите овие стилови според вашата вистинска HTML структура на footer-от */
-.footer {
-    background-color: #343a40; /* Darker footer */
+footer {
+    background-color: #343a40;
     color: white;
-    padding: 40px 20px;
     text-align: center;
     font-size: 0.9em;
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
 }
 
-.footer p {
+
+footer p {
     margin: 0;
 }
+
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
@@ -521,7 +523,7 @@ section h2::after {
     border: none;
     border-radius: 6px;
     background-color: #007bff;
-    color: white;
+    /*color: white;*/
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -574,7 +576,7 @@ textarea {
     width: 100%;
     padding: 10px 12px;
     margin-bottom: 20px;
-    border: 1.5px solid #ced4da;
+    /*border: 1.5px solid #ced4da;*/
     border-radius: 6px;
     font-size: 1em;
     color: #495057;
@@ -616,23 +618,23 @@ textarea {
     resize: vertical;
 }
 
-/* Submit button */
-button[type="submit"] {
-    background-color: #007bff;
-    color: white;
-    padding: 12px 25px;
-    font-size: 1.1em;
-    font-weight: 600;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 100%;
-}
+/*!* Submit button *!*/
+/*button[type="submit"] {*/
+/*    background-color: #007bff;*/
+/*    color: white;*/
+/*    padding: 12px 25px;*/
+/*    font-size: 1.1em;*/
+/*    font-weight: 600;*/
+/*    border: none;*/
+/*    border-radius: 8px;*/
+/*    cursor: pointer;*/
+/*    transition: background-color 0.3s ease;*/
+/*    width: 100%;*/
+/*}*/
 
-button[type="submit"]:hover {
-    background-color: #0056b3;
-}
+/*button[type="submit"]:hover {*/
+/*    background-color: #0056b3;*/
+/*}*/
 
 /* Responsive for smaller devices */
 @media (max-width: 480px) {
@@ -714,3 +716,119 @@ button[type="submit"]:hover {
         width: 100%;
     }
 }
+
+
+/*FAVORITES*/
+
+/* Make html and body flex container for sticky footer */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Main content wrapper */
+.favorites-wrapper {
+    /*flex: 1; !* Fill remaining height *!*/
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f4f8;
+    color: #2c3e50;
+    /*padding: 40px 20px;*/
+}
+
+/* Section */
+/*.favorite-section {*/
+/*    max-width: 800px;*/
+/*    margin: 0 auto;*/
+/*    padding-bottom: 40px;*/
+/*}*/
+
+/* Back button */
+.favorite-back-btn {
+    position: relative;
+    left: -350px;
+    display: inline-block;
+    margin-bottom: 20px;
+    background-color: #0056b3;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease;
+}
+
+.favorite-back-btn:hover {
+    background-color: #ddd;
+    color: #0056b3;
+}
+
+/* Card styles */
+.favorite-card {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.favorite-card-body {
+    text-align: center;
+}
+
+.favorite-card-body h3 {
+    font-size: 1.4em;
+    margin-bottom: 10px;
+}
+
+.favorite-card-body p {
+    font-size: 0.95em;
+    color: #444;
+    margin: 6px 0;
+}
+
+/* Delete button */
+.favorite-remove-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 12px;
+    box-shadow: 0 2px 4px rgba(204, 0, 0, 0.5);
+    transition: background-color 0.3s ease;
+}
+
+.favorite-remove-btn:hover {
+    background-color: #c0392b;
+}
+
+.favorite-btn {
+    background-color: #cc0000; /* потемна црвена */
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 4px rgba(204, 0, 0, 0.5);
+}
+
+.favorite-btn:hover {
+    background-color: #990000; /* уште потемна при hover */
+    box-shadow: 0 4px 8px rgba(153, 0, 0, 0.7);
+}
+
+.favorite-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.7);
+}
+
