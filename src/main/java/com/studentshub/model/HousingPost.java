@@ -10,7 +10,7 @@ import java.util.List;
 public class HousingPost extends Post {
     private String municipality;
     private String location;
-    private Double price;
+    private Integer price;
     @ElementCollection
     private List<String> images;
     private boolean isFound;
@@ -33,11 +33,11 @@ public class HousingPost extends Post {
         this.location = location;
     }
 
-    public Double getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
@@ -68,7 +68,7 @@ public class HousingPost extends Post {
     public HousingPost() {
     }
 
-    public HousingPost(String municipality, String location, Double price, List<String> images, boolean isFound, List<Tag> tags) {
+    public HousingPost(String municipality, String location, Integer price, List<String> images, boolean isFound, List<Tag> tags) {
         this.municipality = municipality;
         this.location = location;
         this.price = price;

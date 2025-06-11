@@ -1,51 +1,120 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <title>Настани</title>-->
+<!--    <link rel="stylesheet" th:href="@{/css/style.css}" />-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<div th:replace="fragments/navbar :: navbar"></div>-->
+<!--<section>-->
+<!--    <div class="section-header">-->
+<!--        <h2>Настани</h2>-->
+<!--    </div>-->
+<!--    <div class="add-new-container">-->
+<!--        <a href="/event-posts/create" class="add-btn">+ Додади нов настан</a>-->
+<!--    </div>-->
+
+<!--    <form method="get" th:action="@{/event-posts}" class="filter-form">-->
+<!--        <label for="category">Филтер по категорија:</label>-->
+<!--        <select name="category" id="category">-->
+<!--            <option value="">Сите категории</option>-->
+<!--            <option th:each="cat : ${T(com.studentshub.model.enumerations.EventCategory).values()}"-->
+<!--                    th:value="${cat}"-->
+<!--                    th:text="${cat}"-->
+<!--                    th:selected="${param.category == cat}">-->
+<!--            </option>-->
+<!--        </select>-->
+<!--        <button type="submit">Филтрирај</button>-->
+<!--    </form>-->
+
+<!--    <div class="card-container">-->
+<!--        <div class="card" th:each="post : ${eventPosts}">-->
+<!--            <img th:src="${post.imageUrl}" alt="Слика од настанот" class="card-img"/>-->
+<!--            <div class="card-body">-->
+<!--                <h3 th:text="${post.title}">Име на настан</h3>-->
+<!--                <p><strong>Категорија:</strong> <span th:text="${post.eventCategory}"/></p>-->
+<!--                <p><strong>Локација:</strong> <span th:text="${post.location}"/></p>-->
+<!--                <p>-->
+<!--                    <strong>Влез:</strong>-->
+<!--                    <span th:text="${post.free} ? 'Слободен' :   ${post.price} + ' ден.'">Цена</span>-->
+<!--                </p>-->
+<!--                <p><strong>Опис:</strong> <span th:text="${post.description}"/></p>-->
+<!--                <p><strong>Организатор:</strong> <span th:text="${post.organizer}"/></p>-->
+<!--                <a th:href="@{'/event-posts/' + ${post.id}}" class="details-btn">Види детали</a>-->
+<!--                <form th:action="@{/favorites/favorites/add/{postId}(postId=${post.id})}" method="get" style="margin-top: 10px;">-->
+<!--                    <button type="submit" class="favorite-btn">💖 Додај во омилени</button>-->
+<!--                </form>-->
+
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
+
+<!--<div th:replace="fragments/footer :: footer"></div>-->
+
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Настани</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
 <div th:replace="fragments/navbar :: navbar"></div>
-<section>
-    <div class="section-header">
+
+<section class="container my-5">
+    <div class="text-center mb-4">
         <h2>Настани</h2>
     </div>
-    <div class="add-new-container">
-        <a href="/event-posts/create" class="add-btn">+ Додади нов настан</a>
+
+    <div class="mb-4 text-end">
+        <a href="/event-posts/create" class="btn btn-primary">+ Додади нов настан</a>
     </div>
 
-    <form method="get" th:action="@{/event-posts}" class="filter-form">
-        <label for="category">Филтер по категорија:</label>
-        <select name="category" id="category">
-            <option value="">Сите категории</option>
-            <option th:each="cat : ${T(com.studentshub.model.enumerations.EventCategory).values()}"
-                    th:value="${cat}"
-                    th:text="${cat}"
-                    th:selected="${param.category == cat}">
-            </option>
-        </select>
-        <button type="submit">Филтрирај</button>
+    <form method="get" th:action="@{/event-posts}" class="row g-3 align-items-center mb-4">
+        <div class="col-auto">
+            <label for="category" class="col-form-label">Филтер по категорија:</label>
+        </div>
+        <div class="col-auto">
+            <select name="category" id="category" class="form-select">
+                <option value="">Сите категории</option>
+                <option th:each="cat : ${T(com.studentshub.model.enumerations.EventCategory).values()}"
+                        th:value="${cat}"
+                        th:text="${cat}"
+                        th:selected="${param.category == cat}">
+                </option>
+            </select>
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-outline-primary">Филтрирај</button>
+        </div>
     </form>
 
-    <div class="card-container">
-        <div class="card" th:each="post : ${eventPosts}">
-            <img th:src="${post.imageUrl}" alt="Слика од настанот" class="card-img"/>
-            <div class="card-body">
-                <h3 th:text="${post.title}">Име на настан</h3>
-                <p><strong>Категорија:</strong> <span th:text="${post.eventCategory}"/></p>
-                <p><strong>Локација:</strong> <span th:text="${post.location}"/></p>
-                <p>
-                    <strong>Влез:</strong>
-                    <span th:text="${post.free} ? 'Слободен' :   ${post.price} + ' ден.'">Цена</span>
-                </p>
-                <p><strong>Опис:</strong> <span th:text="${post.description}"/></p>
-                <p><strong>Организатор:</strong> <span th:text="${post.organizer}"/></p>
-                <a th:href="@{'/event-posts/' + ${post.id}}" class="details-btn">Види детали</a>
-                <form th:action="@{/favorites/favorites/add/{postId}(postId=${post.id})}" method="get" style="margin-top: 10px;">
-                    <button type="submit" class="favorite-btn">💖 Додај во омилени</button>
-                </form>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div class="col" th:each="post : ${eventPosts}">
+            <div class="card h-100">
+                <img th:src="${post.imageUrl}" class="card-img-top" alt="Слика од настанот" style="height: 200px; object-fit: cover;">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title" th:text="${post.title}">Име на настан</h5>
+                    <p class="card-text"><strong>Категорија:</strong> <span th:text="${post.eventCategory}"></span></p>
+                    <p class="card-text"><strong>Локација:</strong> <span th:text="${post.location}"></span></p>
+                    <p class="card-text">
+                        <strong>Влез:</strong>
+                        <span th:text="${post.free} ? 'Слободен' : post.price + ' ден.'">Цена</span>
+                    </p>
+                    <p class="card-text"><strong>Опис:</strong> <span th:text="${post.description}"></span></p>
+                    <p class="card-text"><strong>Организатор:</strong> <span th:text="${post.organizer}"></span></p>
+                    <a th:href="@{'/event-posts/' + ${post.id}}" class="btn btn-info mt-auto text-white">Види детали</a>
 
+                    <form th:action="@{/favorites/favorites/add/{postId}(postId=${post.id})}" method="get" class="mt-2">
+                        <button type="submit" class="btn btn-outline-danger w-100">💖 Додај во омилени</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -53,5 +122,7 @@
 
 <div th:replace="fragments/footer :: footer"></div>
 
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
