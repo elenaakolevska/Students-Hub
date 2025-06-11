@@ -72,9 +72,10 @@
                             <p class="card-text mb-1"><strong>Датум:</strong> <span th:text="${#temporals.format(fav.post.getCreatedAt(), 'dd-MM-yyyy HH:mm')}"></span></p>
                             <p class="card-text mb-3"><strong>Објавил:</strong> <span th:text="${fav.post.owner.getUsername()}"></span></p>
 
-                            <form th:action="@{'/favorites/remove/' + ${fav.post.id}}" method="post" class="mt-auto text-end">
+                            <form th:action="@{'/favorites/remove/' + ${fav.id}}" method="post" class="mt-auto text-end">
                                 <button type="submit" class="btn btn-danger btn-sm">🗑️ Избриши</button>
                             </form>
+
                         </div>
                     </div>
                 </div>

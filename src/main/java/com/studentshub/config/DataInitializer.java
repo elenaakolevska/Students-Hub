@@ -2,11 +2,13 @@ package com.studentshub.config;
 
 import com.studentshub.model.EventPost;
 import com.studentshub.model.HousingPost;
+import com.studentshub.model.InternshipPost;
 import com.studentshub.model.User;
 import com.studentshub.model.enumerations.EventCategory;
 import com.studentshub.model.enumerations.PostCategory;
 import com.studentshub.repository.EventPostRepository;
 import com.studentshub.repository.HousingPostRepository;
+import com.studentshub.repository.InternshipPostRepository;
 import com.studentshub.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
@@ -20,12 +22,14 @@ public class DataInitializer {
     private final EventPostRepository eventPostRepository;
     private final UserRepository userRepository;
     private final HousingPostRepository housingPostRepository;
+    private final InternshipPostRepository internshipPostRepository;
 
 
-    public DataInitializer(EventPostRepository eventPostRepository, UserRepository userRepository, HousingPostRepository housingPostRepository) {
+    public DataInitializer(EventPostRepository eventPostRepository, UserRepository userRepository, HousingPostRepository housingPostRepository, InternshipPostRepository internshipPostRepository) {
         this.eventPostRepository = eventPostRepository;
         this.userRepository = userRepository;
         this.housingPostRepository = housingPostRepository;
+        this.internshipPostRepository = internshipPostRepository;
     }
     private HousingPost createHousingPost(String title, String description, String municipality, String location,
                                           Integer price, List<String> images, boolean isFound, User owner) {
@@ -106,6 +110,40 @@ public class DataInitializer {
                 createHousingPost("Стан во Охрид", "Стан во близина на факултетите во Охрид.",
                         "Охрид", "Охрид", 11000, List.of("https://onekindesign.com/wp-content/uploads/2018/02/Warehouse-Style-Apartment-Home-01-1-Kindesign.jpg"), false, adminUser)
         );
+
+        List<InternshipPost> internshipPosts = List.of(
+                new InternshipPost(null, "Java Developer Internship", "Work on backend Java projects and APIs.",
+                        LocalDateTime.now(), adminUser, PostCategory.INTERNSHIP,
+                        "Tech Company A", "Computer Science", "Java Developer Intern",
+                        "https://t3.ftcdn.net/jpg/05/48/79/56/360_F_548795617_Mc2v4YX1gCR7UCmJDBMAjUmiUfVuJKHf.jpg"),
+
+                new InternshipPost(null, "Data Analyst Internship", "Analyze and visualize datasets for insights.",
+                        LocalDateTime.now(), adminUser, PostCategory.INTERNSHIP,
+                        "Data Insights Ltd", "Statistics", "Data Analyst Intern",
+                        "https://bcassetcdn.com/public/blog/wp-content/uploads/2021/10/07203359/australia-tech-map-by-jimjemr-brandcrowd.png"),
+
+                new InternshipPost(null, "Marketing Intern", "Support digital marketing campaigns and SEO efforts.",
+                        LocalDateTime.now(), adminUser, PostCategory.INTERNSHIP,
+                        "Creative Agency", "Marketing", "Marketing Intern",
+                        "https://img.freepik.com/premium-vector/set-company-logo-design-ideas-vector_1127227-682.jpg"),
+
+                new InternshipPost(null, "UX/UI Design Internship", "Design user interfaces and prototypes.",
+                        LocalDateTime.now(), adminUser, PostCategory.INTERNSHIP,
+                        "Design Studio", "Design", "UX/UI Intern",
+                        "https://img.freepik.com/premium-vector/pg-logo-design_566521-46.jpg"),
+
+                new InternshipPost(null, "Cybersecurity Internship", "Learn about network security and vulnerability testing.",
+                        LocalDateTime.now(), adminUser, PostCategory.INTERNSHIP,
+                        "Security Experts", "Information Security", "Cybersecurity Intern",
+                        "https://pixahive.com/wp-content/uploads/2020/09/itcompany-logo-by-pixahive.png"),
+
+                new InternshipPost(null, "Finance Internship", "Assist with financial modeling and reporting.",
+                        LocalDateTime.now(), adminUser, PostCategory.INTERNSHIP,
+                        "Finance Group", "Finance", "Finance Intern",
+                        "https://www.shutterstock.com/image-vector/abstract-technology-logo-260nw-623206427.jpg")
+        );
+
+        internshipPostRepository.saveAll(internshipPosts);
 
         housingPostRepository.saveAll(housingPosts);
         eventPostRepository.saveAll(posts);

@@ -57,10 +57,10 @@
 
                     <a th:href="@{'/housing-posts/' + ${post.id}}" class="btn btn-info mt-auto text-white">Види детали</a>
 
-                    <form th:action="@{/favorites/favorites/add/{postId}(postId=${post.id})}" method="get" class="mt-2">
-                        <button type="submit" class="btn btn-outline-danger w-100">💖 Додај во омилени</button>
-                    </form>
-                </div>
+                <form th:action="@{/favorites/favorites/add/{postId}(postId=${post.id})}" method="get" style="margin-top: 10px;">
+                    <button type="submit" class="favorite-btn">Додај во омилени</button>
+                </form>
+
             </div>
         </div>
     </div>
