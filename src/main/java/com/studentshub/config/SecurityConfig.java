@@ -39,7 +39,7 @@ public class SecurityConfig {
                         .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
                 )
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/users/*", "/assets/**", "/register","/*","/","/home")
+                        .requestMatchers("/", "/users/*", "/assets/**", "/register","/*","/","/home","/csss")
                         .permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest()
