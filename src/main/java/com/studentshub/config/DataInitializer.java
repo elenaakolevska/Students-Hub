@@ -1,10 +1,12 @@
 package com.studentshub.config;
 
 import com.studentshub.model.EventPost;
+import com.studentshub.model.HousingPost;
 import com.studentshub.model.User;
 import com.studentshub.model.enumerations.EventCategory;
 import com.studentshub.model.enumerations.PostCategory;
 import com.studentshub.repository.EventPostRepository;
+import com.studentshub.repository.HousingPostRepository;
 import com.studentshub.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
@@ -17,10 +19,28 @@ public class DataInitializer {
 
     private final EventPostRepository eventPostRepository;
     private final UserRepository userRepository;
+    private final HousingPostRepository housingPostRepository;
 
-    public DataInitializer(EventPostRepository eventPostRepository, UserRepository userRepository) {
+
+    public DataInitializer(EventPostRepository eventPostRepository, UserRepository userRepository, HousingPostRepository housingPostRepository) {
         this.eventPostRepository = eventPostRepository;
         this.userRepository = userRepository;
+        this.housingPostRepository = housingPostRepository;
+    }
+    private HousingPost createHousingPost(String title, String description, String municipality, String location,
+                                          Integer price, List<String> images, boolean isFound, User owner) {
+        HousingPost post = new HousingPost();
+        post.setTitle(title);
+        post.setDescription(description);
+        post.setMunicipality(municipality);
+        post.setLocation(location);
+        post.setPrice(price);
+        post.setImages(images);
+        post.setFound(isFound);
+        post.setOwner(owner);
+        post.setCreatedAt(LocalDateTime.now());
+        post.setCategory(PostCategory.HOUSING);
+        return post;
     }
 
     @PostConstruct
@@ -64,6 +84,29 @@ public class DataInitializer {
                         "Old Town Square", false, 100, "Gourmet Association",
                         "https://images.stockcake.com/public/b/9/5/b95fe362-ee89-48ac-bae3-acfe181981a8_large/food-truck-festival-stockcake.jpg")
         );
+
+        List<HousingPost> housingPosts = List.of(
+                createHousingPost("Центар стан 40м²", "Мал стан во центар, идеален за студенти.",
+                        "Центар", "Скопје", 150000, List.of("https://www.designstudio210.com/wp-content/uploads/2023/10/Warm-apartment-aesthetic-outdoor-natural-light.jpeg"), false, adminUser),
+
+                createHousingPost("Гарсоњера Аеродром", "Гарсоњера со балкон и поглед.",
+                        "Аеродром", "Скопје", 120000, List.of("https://images.squarespace-cdn.com/content/v1/63dde481bbabc6724d988548/5457343e-30f1-4dab-96c3-12588451dc86/_bf76b3da-2614-425e-b29b-070380800cdc.jpg"), false, adminUser),
+
+                createHousingPost("Соба во Дебар Маало", "Се изнајмува соба во голем стан, делено сместување.",
+                        "Карпош", "Скопје", 19000, List.of("https://i.pinimg.com/736x/ea/89/b1/ea89b1aa9df151a20cfa29d36fb236d2.jpg"), true, adminUser),
+
+                createHousingPost("Студио кај ФИНКИ", "Студио во близина на ФИНКИ, комплетно опремено.",
+                        "Чаир", "Скопје", 130000, List.of("https://www.feelinspiredblog.com/wp-content/uploads/2021/05/210507.020-1.jpg"), false, adminUser),
+
+                createHousingPost("Соба во Битола", "Изнајмувам соба за студент во Битола.",
+                        "Центар", "Битола", 80000, List.of("https://www.bhg.com/thmb/dgy0b4w_W0oUJUxc7M4w3H4AyDo=/1866x0/filters:no_upscale():strip_icc()/living-room-gallery-shelves-l-shaped-couch-ELeyNpyyqpZ8hosOG3EG1X-b5a39646574544e8a75f2961332cd89a.jpg"), false, adminUser),
+
+                createHousingPost("Стан во Охрид", "Стан во близина на факултетите во Охрид.",
+                        "Охрид", "Охрид", 11000, List.of("https://onekindesign.com/wp-content/uploads/2018/02/Warehouse-Style-Apartment-Home-01-1-Kindesign.jpg"), false, adminUser)
+        );
+
+        housingPostRepository.saveAll(housingPosts);
+
 
         eventPostRepository.saveAll(posts);
     }

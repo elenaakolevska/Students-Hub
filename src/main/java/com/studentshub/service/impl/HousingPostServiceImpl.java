@@ -58,4 +58,19 @@ public class HousingPostServiceImpl implements HousingPostService {
     public void delete(Long id) {
         repository.deleteById(id);
     }
+
+    @Override
+    public List<HousingPost> findByMunicipality(String municipality) {
+        return repository.findByMunicipality(municipality);
+    }
+
+    @Override
+    public List<String> getAllMunicipalities() {
+        return repository.findAllByOrderByMunicipalityAsc()
+                .stream()
+                .map(HousingPost::getMunicipality)
+                .distinct()
+                .toList();
+    }
+
 }
