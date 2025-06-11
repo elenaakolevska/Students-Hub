@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Форма за сместување</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<section class="section">
+    <h2 th:text="${post.id} != null ? 'Измени сместување' : 'Креирај ново сместување'"></h2>
+
+    <form th:object="${post}" method="post"
+          th:action="${post.id} != null ? @{/housing-posts/update/{id}(id=${post.id})} : @{/housing-posts}">
+        <input type="hidden" th:field="*{id}" />
+
+        <label>Наслов:</label>
+        <input type="text" th:field="*{title}" required />
+
+        <label>Локација:</label>
+        <input type="text" th:field="*{location}" required />
+
+        <label>Општина:</label>
+        <select th:field="*{municipality}" required>
+            <option value="" disabled selected th:if="${post.municipality == null}">Избери општина</option>
+            <option th:each="mun : ${municipalities}"
+                    th:value="${mun}" th:text="${mun}"
+                    th:selected="${mun} == ${post.municipality}">
+            </option>
+        </select>
+
+        <label>Цена:</label>
+        <input type="number" th:field="*{price}" min="0" required />
+
+        <label>Опис:</label>
+        <textarea th:field="*{description}" rows="4"></textarea>
+
+        <label>Достапност:</label>
+        <select th:field="*{found}">
+            <option th:value="false" th:selected="${!post.found}">Слободно</option>
+            <option th:value="true" th:selected="${post.found}">Веќе најдено</option>
+        </select>
+
+        <label>Слики (URL листа):</label>
+        <textarea name="images" th:text="${imagesAsString}" placeholder="Оддели линкови со запирка, пример: https://img1.jpg, https://img2.jpg" rows="3"></textarea>
+
+        <button type="submit">Зачувај</button>
+    </form>
+</section>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

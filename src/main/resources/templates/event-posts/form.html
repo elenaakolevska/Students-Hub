@@ -81,9 +81,11 @@
 <body>
 <div th:replace="fragments/navbar :: navbar"></div>
 
+
 <div class="container">
     <div class="form-container">
         <h1 th:text="(${eventPost.id} != null) ? 'Измени настан' : 'Креирај нов настан'">Форма за настан</h1>
+
 
         <form th:action="(${eventPost.id} != null) ? @{/event-posts/update} : @{/event-posts}" th:object="${eventPost}" method="post" class="needs-validation" novalidate>
             <input type="hidden" th:field="*{id}"/>
@@ -137,10 +139,12 @@
                 <input type="text" id="imageUrl" th:field="*{imageUrl}" class="form-control" placeholder="https://..."/>
             </div>
 
+
             <button type="submit" class="btn btn-primary w-100">Зачувај</button>
         </form>
     </div>
 </div>
+
 
 <div th:replace="fragments/footer :: footer"></div>
 
