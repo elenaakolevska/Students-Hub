@@ -55,4 +55,10 @@ public class InternshipPostServiceImpl implements InternshipPostService {
     public void delete(Long id) {
         repository.deleteById(id);
     }
+
+    @Override
+    public List<InternshipPost> findByFacultyFilter(String facultyFilter) {
+        return repository.findByFacultyFilterIgnoreCase(facultyFilter);
+    }
+
 }
