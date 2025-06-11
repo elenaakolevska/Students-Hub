@@ -34,11 +34,43 @@
                        onmouseout="this.style.color='white'; this.style.borderBottom='none';"
                        th:href="@{/}">Дома</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" style="position: relative;" onmouseover="this.style.color='orange'; this.style.borderBottom='2px solid orange';"
-                       onmouseout="this.style.color='white'; this.style.borderBottom='none';"
-                       th:href="@{/categories}">Категории</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white" href="#" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false"
+                       onmouseover="this.style.color='orange';"
+                       onmouseout="this.style.color='white';">
+                        Категории
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{/event-posts}"
+                               onmouseover="this.style.backgroundColor='orange'; this.style.color='white';"
+                               onmouseout="this.style.backgroundColor=''; this.style.color='';">
+                            Настани</a></li>
+                        <li><a class="dropdown-item" th:href="@{/internship-posts}"
+                               onmouseover="this.style.backgroundColor='orange'; this.style.color='white';"
+                               onmouseout="this.style.backgroundColor=''; this.style.color='';">
+                            Пракса</a></li>
+                        <li><a class="dropdown-item" th:href="@{/transport-posts}"
+                               onmouseover="this.style.backgroundColor='orange'; this.style.color='white';"
+                               onmouseout="this.style.backgroundColor=''; this.style.color='';">
+                            Превоз</a></li>
+                        <li><a class="dropdown-item" th:href="@{/housing-posts}"
+                               onmouseover="this.style.backgroundColor='orange'; this.style.color='white';"
+                               onmouseout="this.style.backgroundColor=''; this.style.color='';">
+                            Сместување</a></li>
+                        <li><a class="dropdown-item" th:href="@{/tutor-posts}"
+                               onmouseover="this.style.backgroundColor='orange'; this.style.color='white';"
+                               onmouseout="this.style.backgroundColor=''; this.style.color='';">
+                            Туторство</a></li>
+                        <li><a class="dropdown-item" th:href="@{/material-posts}"
+                               onmouseover="this.style.backgroundColor='orange'; this.style.color='white';"
+                               onmouseout="this.style.backgroundColor=''; this.style.color='';">
+                            Материјали</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                    </ul>
                 </li>
+
+
                 <li class="nav-item">
                     <a class="nav-link text-white" style="position: relative;" onmouseover="this.style.color='orange'; this.style.borderBottom='2px solid orange';"
                        onmouseout="this.style.color='white'; this.style.borderBottom='none';"
