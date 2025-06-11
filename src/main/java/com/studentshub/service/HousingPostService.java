@@ -10,5 +10,8 @@ public interface HousingPostService {
     List<HousingPost> findAll();
     HousingPost update(Long id, HousingPost post);
     void delete(Long id);
+    List<HousingPost> findByMunicipality(String municipality);
+    List<String> getAllMunicipalities();
+
 }
 

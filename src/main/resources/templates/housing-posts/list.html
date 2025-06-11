@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Сместувања</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+
+<!-- Navbar -->
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<section>
+    <div class="section-header">
+        <h2>Сместувања</h2>
+    </div>
+
+    <div class="add-new-container">
+        <a href="/housing-posts/create" class="add-btn">+ Додади сместување</a>
+    </div>
+
+    <form method="get" th:action="@{/housing-posts}" class="filter-form">
+        <label for="municipality">Филтер по општина:</label>
+        <select name="municipality" id="municipality">
+            <option value="">Сите</option>
+            <option th:each="mun : ${municipalities}"
+                    th:value="${mun}"
+                    th:text="${mun}"
+                    th:selected="${param.municipality == mun}">
+            </option>
+        </select>
+        <button type="submit">Филтрирај</button>
+    </form>
+
+
+    <div class="card-container">
+        <div class="card" th:each="post : ${posts}">
+            <img th:src="${post.images[0]}" alt="Слика од сместување" class="card-img"/>
+
+            <div class="card-body">
+                <h3 th:text="${post.title}">Наслов</h3>
+
+                <p><strong>Локација:</strong> <span th:text="${post.location}"/></p>
+                <p><strong>Општина:</strong> <span th:text="${post.municipality}"/></p>
+
+                <p>
+                    <strong>Цена:</strong>
+                    <span th:text="${post.price} + ' ден.'">Цена</span>
+                </p>
+
+                <p><strong>Опис:</strong> <span th:text="${post.description}"/></p>
+
+                <p>
+                    <strong>Статус:</strong>
+                    <span th:text="${post.found} ? 'Веќе најдено' : 'Слободно'"></span>
+                </p>
+
+                <a th:href="@{'/housing-posts/' + ${post.id}}" class="details-btn">Види детали</a>
+
+                <form th:action="@{/favorites/favorites/add/{postId}(postId=${post.id})}" method="get" style="margin-top: 10px;">
+                    <button type="submit" class="favorite-btn">💖 Додај во омилени</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>
