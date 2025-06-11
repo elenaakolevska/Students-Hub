@@ -42,6 +42,10 @@
                 <p><strong>Опис:</strong> <span th:text="${post.description}"/></p>
                 <p><strong>Организатор:</strong> <span th:text="${post.organizer}"/></p>
                 <a th:href="@{'/event-posts/' + ${post.id}}" class="details-btn">Види детали</a>
+                <form th:action="@{/favorites/favorites/add/{postId}(postId=${post.id})}" method="get" style="margin-top: 10px;">
+                    <button type="submit" class="favorite-btn">💖 Додај во омилени</button>
+                </form>
+
             </div>
         </div>
     </div>
