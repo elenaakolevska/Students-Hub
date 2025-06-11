@@ -1,5 +1,7 @@
 package com.studentshub.config;
+
 import com.studentshub.service.UserService;
+import com.studentshub.model.exceptions.ResourceNotFoundException;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -8,6 +10,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
 @Component
 public class CustomUsernamePasswordAuthenticationProvider implements AuthenticationProvider {
 
@@ -28,18 +31,26 @@ public class CustomUsernamePasswordAuthenticationProvider implements Authenticat
             throw new BadCredentialsException("Empty credentials!");
         }
 
-        UserDetails userDetails = (UserDetails) this.userService.getUserByUsername(username);
+        UserDetails userDetails;
+        try {
+            userDetails = (UserDetails) this.userService.getUserByUsername(username);
+        } catch (ResourceNotFoundException e) {
+            throw new BadCredentialsException("Invalid username or password!");
+        }
 
         if (!passwordEncoder.matches(password, userDetails.getPassword())) {
-            throw new BadCredentialsException("Password is incorrect!");
+            throw new BadCredentialsException("Invalid username or password!");
         }
-        return new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
+
+        return new UsernamePasswordAuthenticationToken(
+                userDetails,
+                userDetails.getPassword(),
+                userDetails.getAuthorities()
+        );
     }
 
     @Override
     public boolean supports(Class<?> aClass) {
         return aClass.equals(UsernamePasswordAuthenticationToken.class);
     }
-
 }
-
