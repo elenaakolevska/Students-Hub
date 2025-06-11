@@ -3,6 +3,7 @@ package com.studentshub.model;
 import com.studentshub.model.enumerations.PostCategory;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -14,6 +15,7 @@ public abstract class Post {
     private Long id;
     private String title;
     private String description;
+    @CreationTimestamp
     private LocalDateTime createdAt;
 
     @ManyToOne

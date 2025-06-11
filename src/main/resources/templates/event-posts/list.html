@@ -1,61 +1,3 @@
-<!--<!DOCTYPE html>-->
-<!--<html xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--    <title>Настани</title>-->
-<!--    <link rel="stylesheet" th:href="@{/css/style.css}" />-->
-<!--</head>-->
-<!--<body>-->
-
-<!--<div th:replace="fragments/navbar :: navbar"></div>-->
-<!--<section>-->
-<!--    <div class="section-header">-->
-<!--        <h2>Настани</h2>-->
-<!--    </div>-->
-<!--    <div class="add-new-container">-->
-<!--        <a href="/event-posts/create" class="add-btn">+ Додади нов настан</a>-->
-<!--    </div>-->
-
-<!--    <form method="get" th:action="@{/event-posts}" class="filter-form">-->
-<!--        <label for="category">Филтер по категорија:</label>-->
-<!--        <select name="category" id="category">-->
-<!--            <option value="">Сите категории</option>-->
-<!--            <option th:each="cat : ${T(com.studentshub.model.enumerations.EventCategory).values()}"-->
-<!--                    th:value="${cat}"-->
-<!--                    th:text="${cat}"-->
-<!--                    th:selected="${param.category == cat}">-->
-<!--            </option>-->
-<!--        </select>-->
-<!--        <button type="submit">Филтрирај</button>-->
-<!--    </form>-->
-
-<!--    <div class="card-container">-->
-<!--        <div class="card" th:each="post : ${eventPosts}">-->
-<!--            <img th:src="${post.imageUrl}" alt="Слика од настанот" class="card-img"/>-->
-<!--            <div class="card-body">-->
-<!--                <h3 th:text="${post.title}">Име на настан</h3>-->
-<!--                <p><strong>Категорија:</strong> <span th:text="${post.eventCategory}"/></p>-->
-<!--                <p><strong>Локација:</strong> <span th:text="${post.location}"/></p>-->
-<!--                <p>-->
-<!--                    <strong>Влез:</strong>-->
-<!--                    <span th:text="${post.free} ? 'Слободен' :   ${post.price} + ' ден.'">Цена</span>-->
-<!--                </p>-->
-<!--                <p><strong>Опис:</strong> <span th:text="${post.description}"/></p>-->
-<!--                <p><strong>Организатор:</strong> <span th:text="${post.organizer}"/></p>-->
-<!--                <a th:href="@{'/event-posts/' + ${post.id}}" class="details-btn">Види детали</a>-->
-<!--                <form th:action="@{/favorites/favorites/add/{postId}(postId=${post.id})}" method="get" style="margin-top: 10px;">-->
-<!--                    <button type="submit" class="favorite-btn">💖 Додај во омилени</button>-->
-<!--                </form>-->
-
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</section>-->
-
-<!--<div th:replace="fragments/footer :: footer"></div>-->
-
-<!--</body>-->
-<!--</html>-->
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -65,13 +7,53 @@
 </head>
 <body>
 
+<style>
+    .section-header {
+        padding: 2rem 0;
+        position: relative;
+        margin-bottom: 3rem;
+        text-align: center;
+    }
+
+    .section-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #2c3e50;
+        position: relative;
+        display: inline-block;
+        padding-bottom: 1rem;
+    }
+
+    .section-title::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 4px;
+        background: #fd7e14; /* Changed to solid orange color */
+        border-radius: 2px;
+    }
+
+    .section-subtitle {
+        color: #6c757d;
+        font-size: 1.1rem;
+        margin-top: 1rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+
 <div th:replace="fragments/navbar :: navbar"></div>
 
-<section class="container my-5">
-    <div class="text-center mb-4">
-        <h2>Настани</h2>
-    </div>
+<div class="section-header">
+    <h2 class="section-title">Настани</h2>
+    <p class="section-subtitle">Истражете ги најновите и најинтересните настани во студентската заедница</p>
+</div>
 
+<section class="container my-5">
     <div class="mb-4 text-end">
         <a href="/event-posts/create" class="btn btn-primary">+ Додади нов настан</a>
     </div>
