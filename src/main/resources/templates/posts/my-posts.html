@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Posts</title>
+</head>
+<body>
+<h2>Мои Објави</h2>
+<ul>
+    <li th:each="post : ${posts}">
+        <a th:href="@{'/posts/' + ${post.id}}" th:text="${post.title}">Наслов</a>
+        <p th:text="${post.description}"></p>
+        <span th:text="${#temporals.format(someDateTime, 'yyyy-MM-dd')}"></span>
+    </li>
+</ul>
+</body>
+</html>
