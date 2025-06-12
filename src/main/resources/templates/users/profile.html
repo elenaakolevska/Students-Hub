@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Профил</title>
+  <link rel="stylesheet" href="/css/profile.css" />
+</head>
+<body>
+
+<div class="sidebar">
+  <a href="/chat">Чат</a>
+</div>
+
+<div class="profile-container">
+  <div class="profile-header">
+    <img th:src="@{${user.profileImageUrl}}" alt="Профилна слика" class="profile-pic"/>
+    <h2 th:text="${user.name}">Име</h2>
+    <p th:text="${user.education}">Образование</p>
+  </div>
+
+  <div class="tabs">
+    <button onclick="showTab('favorites')">Мои омилени</button>
+    <button onclick="showTab('posts')">Мои објави</button>
+  </div>
+
+  <div class="tab-content">
+    <div id="favorites" class="tab-pane">
+      <!-- Тука ги вчитуваш омилените, пр. од model -->
+      <p th:each="fav : ${user.favorites}" th:text="${fav.title}"></p>
+    </div>
+
+    <div id="posts" class="tab-pane" style="display: none;">
+      <!-- Тука ги вчитуваш објавите -->
+      <p th:each="post : ${user.posts}" th:text="${post.content}"></p>
+    </div>
+  </div>
+</div>
+
+<script>
+  function showTab(tabId) {
+    document.querySelectorAll('.tab-pane').forEach(pane => pane.style.display = 'none');
+    document.getElementById(tabId).style.display = 'block';
+  }
+</script>
+
+</body>
+</html>
