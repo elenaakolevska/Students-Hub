@@ -26,7 +26,9 @@ public class User implements UserDetails {
     private String email;
     private String password;
     private String education;
+    private String profileImageUrl;
     private LocalDateTime createdAt;
+
 
     @OneToMany(mappedBy = "owner")
     private List<Post> posts;
@@ -173,6 +175,14 @@ public class User implements UserDetails {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
     }
 
     public void setPassword(String password) {

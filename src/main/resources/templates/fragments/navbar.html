@@ -77,6 +77,12 @@
                        th:href="@{/about}">За нас</a>
                 </li>
                 <li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}">
+                    <a class="nav-link text-white" style="position: relative;"
+                       onmouseover="this.style.color='orange'; this.style.borderBottom='2px solid orange';"
+                       onmouseout="this.style.color='white'; this.style.borderBottom='none';"
+                       th:href="@{/profile}">Профил</a>
+                </li>
+                <li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}">
                     <a class="nav-link text-white" style="position: relative;" onmouseover="this.style.color='orange'; this.style.borderBottom='2px solid orange';"
                        onmouseout="this.style.color='white'; this.style.borderBottom='none';"
                        th:href="@{/logout}">Одјава</a>
