@@ -91,10 +91,22 @@ public String createPost(@ModelAttribute Post post, Principal principal) {
 
     @GetMapping("/my-posts")
     public String getMyPosts(Model model, Principal principal) {
+        if (principal == null) {
+            return "redirect:/login";
+        }
+
         String username = principal.getName();
         List<Post> myPosts = postService.getPostsByUsername(username);
         model.addAttribute("posts", myPosts);
         return "posts/my-posts";
     }
+
+    @PostMapping("/delete/{id}")
+    public String deletePost(@PathVariable Long id) {
+        postService.deletePost(id); // или како ти е имплементирано
+        return "redirect:/posts/my-posts"; // или каде и да сакаш да пренасочи после бришење
+    }
+
+
 
 }
