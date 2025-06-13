@@ -87,7 +87,7 @@
                     <p class="card-text"><strong>Локација:</strong> <span th:text="${post.location}"></span></p>
                     <p class="card-text">
                         <strong>Влез:</strong>
-                        <span th:text="${post.free} ? 'Слободен' : post.price + ' ден.'">Цена</span>
+                        <span th:text="${post.free} ? 'Слободен' : ${post.price} + ' ден.'">Цена</span>
                     </p>
                     <p class="card-text"><strong>Опис:</strong> <span th:text="${post.description}"></span></p>
                     <p class="card-text"><strong>Организатор:</strong> <span th:text="${post.organizer}"></span></p>
