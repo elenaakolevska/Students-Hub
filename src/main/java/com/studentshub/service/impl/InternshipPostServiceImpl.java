@@ -25,6 +25,8 @@ public class InternshipPostServiceImpl implements InternshipPostService {
         newPost.setFacultyFilter(post.getFacultyFilter());
         newPost.setPosition(post.getPosition());
         newPost.setLogoUrl(post.getLogoUrl());
+        newPost.setDescription(post.getDescription());
+        newPost.setTitle(post.getTitle());
         return repository.save(newPost);
     }
 
@@ -47,6 +49,8 @@ public class InternshipPostServiceImpl implements InternshipPostService {
         existingPost.setFacultyFilter(updatedPost.getFacultyFilter());
         existingPost.setPosition(updatedPost.getPosition());
         existingPost.setLogoUrl(updatedPost.getLogoUrl());
+        existingPost.setDescription(updatedPost.getDescription());
+        existingPost.setTitle(updatedPost.getTitle());
 
         return repository.save(existingPost);
     }
