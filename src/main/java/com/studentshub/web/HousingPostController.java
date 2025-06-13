@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,8 +48,9 @@ public class HousingPostController {
 
 
     @PostMapping
-    public String create(@ModelAttribute HousingPost post) {
-        service.create(post);
+    public String create(@ModelAttribute HousingPost post, Principal principal
+    ) {
+        service.create(post,principal.getName());
         return "redirect:/housing-posts";
     }
 

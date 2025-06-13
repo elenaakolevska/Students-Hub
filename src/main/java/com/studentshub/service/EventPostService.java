@@ -7,10 +7,10 @@ import java.util.List;
 
 public interface EventPostService {
     List<EventPost> getAllEventPosts();
-    EventPost createEventPost(EventPost eventPost);
     List<EventPost> getEventPostsByCategory(EventCategory category);
     EventPost getEventPostById(Long id);
     EventPost updateEventPost(Long id, EventPost eventPost);
+    EventPost createEventPost(EventPost post, String username);
     void deleteEventPost(Long id);
 }
 

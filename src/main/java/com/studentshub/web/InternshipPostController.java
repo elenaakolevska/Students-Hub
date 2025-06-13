@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -42,8 +43,9 @@ public class InternshipPostController {
     }
 
     @PostMapping
-    public String create(@ModelAttribute InternshipPost internshipPost) {
-        service.create(internshipPost);
+    public String create(@ModelAttribute InternshipPost internshipPost, Principal principal
+    ) {
+        service.create(internshipPost,principal.getName());
         return "redirect:/internship-posts";
     }
 
