@@ -87,7 +87,7 @@
         <h1 th:text="(${eventPost.id} != null) ? 'Измени настан' : 'Креирај нов настан'">Форма за настан</h1>
 
 
-        <form th:action="(${eventPost.id} != null) ? @{/event-posts/update} : @{/event-posts}" th:object="${eventPost}" method="post" class="needs-validation" novalidate>
+        <form th:action="@{${eventPost.id != null ? '/event-posts/update' : '/event-posts'}}" th:object="${eventPost}" method="post" class="needs-validation" novalidate>
             <input type="hidden" th:field="*{id}"/>
 
             <div class="mb-3">
@@ -98,11 +98,12 @@
 
             <div class="mb-3">
                 <label for="eventCategory" class="form-label">Категорија:</label>
-                <select id="eventCategory" th:field="*{eventCategory}" class="form-select" required>
-                    <option value="" disabled th:if="${eventPost.eventCategory == null}" selected>Избери категорија</option>
+                <select id="eventCategory" name="eventCategory" class="form-select" required>
+                    <option value="" disabled selected>Избери категорија</option>
                     <option th:each="cat : ${T(com.studentshub.model.enumerations.EventCategory).values()}"
-                            th:value="${cat}" th:text="${cat}"
-                            th:selected="${cat} == ${eventPost.eventCategory}">
+                            th:value="${cat}"
+                            th:text="${cat}"
+                            th:selected="${cat == eventPost.eventCategory}">
                     </option>
                 </select>
                 <div class="invalid-feedback">Изберете категорија.</div>

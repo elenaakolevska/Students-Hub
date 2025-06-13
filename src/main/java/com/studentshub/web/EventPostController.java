@@ -38,6 +38,9 @@ public class EventPostController {
     @GetMapping("/create")
     public String showCreateForm(Model model) {
         model.addAttribute("eventPost", new EventPost());
+        model.addAttribute("categories", EventCategory.values());
+
+
         return "event-posts/form";
     }
 
@@ -50,6 +53,8 @@ public class EventPostController {
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
         model.addAttribute("eventPost", eventPostService.getEventPostById(id));
+        model.addAttribute("categories", EventCategory.values());
+
         return "event-posts/form";
     }
 

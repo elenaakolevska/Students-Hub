@@ -69,11 +69,18 @@ public class PostController {
     </form>
 
      */
-    @PostMapping("/create")
-    public String createPost(@ModelAttribute Post post) {
-        postService.createPost(post);
-        return "redirect:/posts";
-    }
+@PostMapping("/posts/create")
+public String createPost(@ModelAttribute Post post, Principal principal) {
+    User owner = userService.getUserByUsername(principal.getName());
+
+    
+    post.setOwner(owner);
+    post.setCreatedAt(LocalDateTime.now());
+    
+    postService.createPost(post);
+    return "redirect:/posts";
+}
+
 
     @GetMapping("/{id}")
     public String getPostDetails(@PathVariable Long id, Model model) {
@@ -81,4 +88,13 @@ public class PostController {
         model.addAttribute("post", post);
         return "posts/details";
     }
+
+    @GetMapping("/my-posts")
+    public String getMyPosts(Model model, Principal principal) {
+        String username = principal.getName();
+        List<Post> myPosts = postService.getPostsByUsername(username);
+        model.addAttribute("posts", myPosts);
+        return "posts/my-posts";
+    }
+
 }
