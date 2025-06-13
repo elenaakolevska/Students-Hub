@@ -42,8 +42,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<GroupChatMembers> groupMemberships;
 
-    public User() {
-    }
+        public User() {
+
+        }
 
     public User(Long id, String firstName, String lastName, String username, String email, String password, String education, LocalDateTime createdAt, List<Post> posts, List<Favorite> favorites, List<Message> sentMessages, List<GroupChatMembers> groupMemberships) {
         this.id = id;
