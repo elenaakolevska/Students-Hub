@@ -50,6 +50,10 @@ public class EventPost extends Post {
         super.setDescription(description);
     }
 
+    public void setEventCategory(EventCategory eventCategory) {
+        this.eventCategory = eventCategory;
+    }
+
 
     public EventCategory getEventCategory() {
         return eventCategory;

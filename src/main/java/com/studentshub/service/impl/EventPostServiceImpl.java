@@ -25,12 +25,14 @@ public class EventPostServiceImpl implements EventPostService {
     @Override
     public EventPost createEventPost(EventPost post) {
         EventPost newPost = new EventPost();
-        newPost.setCategory(post.getEventCategory());
+        newPost.setEventCategory(post.getEventCategory());
         newPost.setLocation(post.getLocation());
         newPost.setFree(post.isFree());
         newPost.setPrice(post.getPrice());
         newPost.setOrganizer(post.getOrganizer());
         newPost.setImageUrl(post.getImageUrl());
+        newPost.setTitle(post.getTitle());
+        newPost.setDescription(post.getDescription());
         return eventPostRepository.save(newPost);
     }
 
@@ -51,13 +53,14 @@ public class EventPostServiceImpl implements EventPostService {
         EventPost existingPost = eventPostRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("EventPost not found with id: " + id));
 
-        existingPost.setCategory(updatedPost.getEventCategory());
+        existingPost.setEventCategory(updatedPost.getEventCategory());
         existingPost.setDescription(updatedPost.getDescription());
         existingPost.setLocation(updatedPost.getLocation());
         existingPost.setFree(updatedPost.isFree());
         existingPost.setPrice(updatedPost.getPrice());
         existingPost.setOrganizer(updatedPost.getOrganizer());
         existingPost.setImageUrl(updatedPost.getImageUrl());
+        existingPost.setTitle(updatedPost.getTitle());
 
         return eventPostRepository.save(existingPost);
     }
