@@ -21,6 +21,8 @@ public class HousingPostServiceImpl implements HousingPostService {
     public HousingPost create(HousingPost post) {
         HousingPost newPost = new HousingPost();
         newPost.setMunicipality(post.getMunicipality());
+        newPost.setDescription(post.getDescription());
+        newPost.setTitle(post.getTitle());
         newPost.setLocation(post.getLocation());
         newPost.setPrice(post.getPrice());
         newPost.setImages(post.getImages());
@@ -50,6 +52,8 @@ public class HousingPostServiceImpl implements HousingPostService {
         existingPost.setImages(updatedPost.getImages());
         existingPost.setFound(updatedPost.isFound());
         existingPost.setTags(updatedPost.getTags());
+        existingPost.setTitle(updatedPost.getTitle());
+        existingPost.setDescription(updatedPost.getDescription());
 
         return repository.save(existingPost);
     }
