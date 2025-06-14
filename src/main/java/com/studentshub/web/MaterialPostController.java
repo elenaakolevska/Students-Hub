@@ -1,45 +1,136 @@
 package com.studentshub.web;
 
 import com.studentshub.model.MaterialPost;
+import com.studentshub.model.enumerations.PostCategory;
 import com.studentshub.service.MaterialPostService;
+import com.studentshub.service.TagService;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.security.Principal;
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/material-posts")
+@Controller
+@RequestMapping("/material-posts")
 public class MaterialPostController {
 
-    private final MaterialPostService service;
+    private final MaterialPostService materialPostService;
+    private final TagService tagService; // ако имаш сервис за тагови
 
-    public MaterialPostController(MaterialPostService service) {
-        this.service = service;
+    public MaterialPostController(MaterialPostService materialPostService, TagService tagService) {
+        this.materialPostService = materialPostService;
+        this.tagService = tagService;
     }
 
     @GetMapping
-    public List<MaterialPost> getAll() {
-        return service.findAll();
+    public String listMaterialPosts(Model model) {
+        List<MaterialPost> posts = materialPostService.findAll();
+        model.addAttribute("materialPosts", posts);
+        return "material-posts/list";
     }
 
     @GetMapping("/{id}")
-    public MaterialPost getById(@PathVariable Long id) {
-        return service.findById(id);
+    public String viewMaterialPost(@PathVariable Long id, Model model) {
+        MaterialPost post = materialPostService.findById(id);
+        model.addAttribute("materialPost", post);
+        return "material-posts/details";
+    }
+
+    @GetMapping("/create")
+    public String showCreateForm(Model model) {
+        model.addAttribute("materialPost", new MaterialPost());
+        model.addAttribute("categories", PostCategory.values());
+        model.addAttribute("tags", tagService.getAllTags());
+        return "material-posts/form";
     }
 
     @PostMapping
-    public MaterialPost create(@RequestBody MaterialPost post) {
-        return service.create(post);
-    }
+    public String createMaterialPost(
+            @ModelAttribute MaterialPost post,
+            @RequestParam("file") MultipartFile file,
+            Principal principal
+    ) {
+        if (!file.isEmpty()) {
+            try {
+                String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
 
-    @PutMapping("/{id}")
-    public String update(@PathVariable Long id, @RequestBody MaterialPost post) {
-        service.update(post.getId(), post);
+                Path uploadPath = Paths.get("materialUploads");
+                if (!Files.exists(uploadPath)) {
+                    Files.createDirectories(uploadPath);
+                }
+                Path filePath = uploadPath.resolve(fileName);
+                file.transferTo(filePath.toFile());
+
+                post.setFileUrl("/files/" + fileName);
+                post.setOriginalFileName(file.getOriginalFilename());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        materialPostService.create(post, principal.getName());
         return "redirect:/material-posts";
     }
 
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        service.delete(id);
+
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable Long id, Model model) {
+        MaterialPost post = materialPostService.findById(id);
+        model.addAttribute("materialPost", post);
+        model.addAttribute("categories", PostCategory.values());
+        model.addAttribute("tags", tagService.getAllTags());
+        return "material-posts/form";
+    }
+
+    @PostMapping("/update")
+    public String updateMaterialPost(@ModelAttribute MaterialPost post) {
+        if (post.getId() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Missing post ID");
+        }
+        materialPostService.update(post.getId(), post);
+        return "redirect:/material-posts";
+    }
+
+    @PostMapping("/delete/{id}")
+    public String deleteMaterialPost(@PathVariable Long id) {
+        materialPostService.delete(id);
+        return "redirect:/material-posts";
+    }
+
+    @GetMapping("/download/{id}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable Long id) {
+        MaterialPost post = materialPostService.findById(id);
+        if (post == null || post.getFileUrl() == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        try {
+
+            String fileName = post.getFileUrl().replace("/uploads/", "");
+            Path filePath = Paths.get("materialUploads").resolve(fileName);
+            Resource resource = new UrlResource(filePath.toUri());
+
+            if (!resource.exists() || !resource.isReadable()) {
+                return ResponseEntity.notFound().build();
+            }
+
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + post.getOriginalFileName() + "\"")
+                    .body(resource);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
     }
 }
-

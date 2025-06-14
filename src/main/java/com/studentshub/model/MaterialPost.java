@@ -14,6 +14,8 @@ public class MaterialPost extends Post {
     private String fileUrl;
     @ManyToMany
     private List<Tag> tags;
+    private String originalFileName;
+
 
     public MaterialPost(Double rating, String fileUrl, List<Tag> tags) {
         this.rating = rating;
@@ -24,11 +26,20 @@ public class MaterialPost extends Post {
     public MaterialPost() {
     }
 
-    public MaterialPost(Long id, String title, String description, LocalDateTime createdAt, User owner, PostCategory category, Double rating, String fileUrl, List<Tag> tags) {
+    public MaterialPost(Long id, String title, String description, LocalDateTime createdAt, User owner, PostCategory category, Double rating, String fileUrl, List<Tag> tags, String originalFileName) {
         super(id, title, description, createdAt, owner, category);
         this.rating = rating;
         this.fileUrl = fileUrl;
         this.tags = tags;
+        this.originalFileName = originalFileName;
+    }
+
+    public String getOriginalFileName() {
+        return originalFileName;
+    }
+
+    public void setOriginalFileName(String originalFileName) {
+        this.originalFileName = originalFileName;
     }
 
     public Double getRating() {
