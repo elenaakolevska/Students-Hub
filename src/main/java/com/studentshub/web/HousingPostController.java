@@ -1,7 +1,9 @@
 package com.studentshub.web;
 
 import com.studentshub.model.HousingPost;
+import com.studentshub.model.User;
 import com.studentshub.service.HousingPostService;
+import com.studentshub.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +19,10 @@ import java.util.stream.Collectors;
 public class HousingPostController {
 
     private final HousingPostService service;
-
-    public HousingPostController(HousingPostService service) {
+    private final UserService userService;
+    public HousingPostController(HousingPostService service, UserService userService) {
         this.service = service;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -41,6 +44,8 @@ public class HousingPostController {
     public String getById(@PathVariable Long id, Model model) {
         HousingPost post = service.findById(id);
         model.addAttribute("post", post);
+        User currentUser = userService.getCurrentUser();
+        model.addAttribute("currentUser", currentUser);
         return "housing-posts/details";
     }
 
@@ -58,6 +63,7 @@ public class HousingPostController {
     public String showCreateForm(Model model) {
         model.addAttribute("post", new HousingPost());
         model.addAttribute("municipalities", service.getAllMunicipalities());
+
         return "housing-posts/form";
     }
 

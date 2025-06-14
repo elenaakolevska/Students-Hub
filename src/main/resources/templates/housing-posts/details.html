@@ -80,9 +80,9 @@
                    class="btn btn-warning">
                     <i class="bi bi-chat-dots"></i> Прати порака
                 </a>
-                <a th:href="@{'/housing-posts/edit/' + ${post.id}}" class="btn btn-primary">Уреди</a>
+                <a th:href="@{'/housing-posts/edit/' + ${post.id}}" th:if="${currentUser.username == post.owner.username}" class="btn btn-primary">Уреди</a>
 
-                <form th:action="@{'/housing-posts/delete/' + ${post.id}}" method="post"
+                <form th:action="@{'/housing-posts/delete/' + ${post.id}}" th:if="${currentUser.username == post.owner.username}" method="post"
                       onsubmit="return confirm('Дали сте сигурни дека сакате да го избришете сместувањето?');">
                     <button type="submit" class="btn btn-danger">Избриши</button>
                 </form>
