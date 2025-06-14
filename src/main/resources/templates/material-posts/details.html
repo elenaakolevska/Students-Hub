@@ -51,9 +51,9 @@
                    class="btn btn-warning">
                     <i class="bi bi-chat-dots"></i> Прати порака
                 </a>
-                <a th:href="@{'/material-posts/edit/' + ${materialPost.id}}" class="btn btn-primary">Уреди</a>
+                <a th:href="@{'/material-posts/edit/' + ${materialPost.id}}" th:if="${currentUser.username == materialPost.owner.username}" class="btn btn-primary">Уреди</a>
 
-                <form th:action="@{'/material-posts/delete/' + ${materialPost.id}}" method="post"
+                <form th:action="@{'/material-posts/delete/' + ${materialPost.id}}" th:if="${currentUser.username == materialPost.owner.username}" method="post"
                       onsubmit="return confirm('Дали сте сигурни дека сакате да го избришете материјалот?');">
                     <button type="submit" class="btn btn-danger">Избриши</button>
                 </form>

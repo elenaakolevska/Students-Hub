@@ -1,9 +1,11 @@
 package com.studentshub.web;
 
 import com.studentshub.model.MaterialPost;
+import com.studentshub.model.User;
 import com.studentshub.model.enumerations.PostCategory;
 import com.studentshub.service.MaterialPostService;
 import com.studentshub.service.TagService;
+import com.studentshub.service.UserService;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -27,11 +29,11 @@ import java.util.List;
 public class MaterialPostController {
 
     private final MaterialPostService materialPostService;
-    private final TagService tagService; // ако имаш сервис за тагови
+    private final UserService userService;
 
-    public MaterialPostController(MaterialPostService materialPostService, TagService tagService) {
+    public MaterialPostController(MaterialPostService materialPostService, UserService userService) {
         this.materialPostService = materialPostService;
-        this.tagService = tagService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -45,6 +47,8 @@ public class MaterialPostController {
     public String viewMaterialPost(@PathVariable Long id, Model model) {
         MaterialPost post = materialPostService.findById(id);
         model.addAttribute("materialPost", post);
+        User currentUser = userService.getCurrentUser();
+        model.addAttribute("currentUser", currentUser);
         return "material-posts/details";
     }
 
@@ -52,7 +56,6 @@ public class MaterialPostController {
     public String showCreateForm(Model model) {
         model.addAttribute("materialPost", new MaterialPost());
         model.addAttribute("categories", PostCategory.values());
-        model.addAttribute("tags", tagService.getAllTags());
         return "material-posts/form";
     }
 
@@ -89,7 +92,6 @@ public class MaterialPostController {
         MaterialPost post = materialPostService.findById(id);
         model.addAttribute("materialPost", post);
         model.addAttribute("categories", PostCategory.values());
-        model.addAttribute("tags", tagService.getAllTags());
         return "material-posts/form";
     }
 
