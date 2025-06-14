@@ -29,7 +29,6 @@ public class EventPostServiceImpl implements EventPostService {
 
     @Override
     public EventPost createEventPost(EventPost post, String username) {
-        // Get the logged-in user
         User owner = userService.getUserByUsername(username);
 
         EventPost newPost = new EventPost();
@@ -42,7 +41,6 @@ public class EventPostServiceImpl implements EventPostService {
         newPost.setTitle(post.getTitle());
         newPost.setDescription(post.getDescription());
 
-        // Set the owner and creation time
         newPost.setOwner(owner);
         newPost.setCreatedAt(LocalDateTime.now());
 
