@@ -237,11 +237,11 @@
 <!-- Fixed Navbar -->
 <div th:replace="fragments/navbar :: navbar"></div>
 
-<main class="flex-grow-1">
+<main class="flex-grow-1 mt-5">
     <div class="row g-0">
         <!-- Left sidebar: list of all registered users -->
         <div class="col-12 col-md-3 border-end user-list">
-            <h5 class="mb-3 px-3 pt-2">Users</h5>
+            <h5 class="mb-3 px-3 pt-2">Корисници</h5>
             <ul class="list-group list-group-flush">
                 <li th:each="user : ${chatPartners}" class="list-group-item user-item p-0">
                     <a th:href="@{/chat/{username}(username=${user.username})}" th:text="${user.username}"
@@ -257,7 +257,7 @@
             <div th:if="${receiver == null}"
                  class="d-flex align-items-center justify-content-center bg-white rounded shadow-sm"
                  style="height:80vh;">
-                <h4 class="text-muted text-center px-3">Select a user from the left to start chatting.</h4>
+                <h4 class="text-muted text-center px-3">Одбери корисник од листата за да започнеш разговор</h4>
             </div>
 
             <div th:if="${receiver != null}" class="chat-container">

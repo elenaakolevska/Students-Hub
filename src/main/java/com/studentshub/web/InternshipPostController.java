@@ -1,12 +1,15 @@
 package com.studentshub.web;
 
 import com.studentshub.model.InternshipPost;
+import com.studentshub.model.User;
 import com.studentshub.model.enumerations.PostCategory;
 import com.studentshub.service.InternshipPostService;
+import com.studentshub.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -14,9 +17,11 @@ import java.util.List;
 public class InternshipPostController {
 
     private final InternshipPostService service;
+    private final UserService userService;
 
-    public InternshipPostController(InternshipPostService service) {
+    public InternshipPostController(InternshipPostService service, UserService userService) {
         this.service = service;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -42,8 +47,9 @@ public class InternshipPostController {
     }
 
     @PostMapping
-    public String create(@ModelAttribute InternshipPost internshipPost) {
-        service.create(internshipPost);
+    public String create(@ModelAttribute InternshipPost internshipPost, Principal principal
+    ) {
+        service.create(internshipPost,principal.getName());
         return "redirect:/internship-posts";
     }
 
@@ -51,6 +57,8 @@ public class InternshipPostController {
     public String showDetails(@PathVariable Long id, Model model) {
         InternshipPost post = service.findById(id);
         model.addAttribute("post", post);
+        User currentUser = userService.getCurrentUser();
+        model.addAttribute("currentUser", currentUser);
         return "internship-posts/details";
     }
 

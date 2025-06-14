@@ -193,17 +193,17 @@
     <!-- Latest News Section -->
     <section class="bg-light py-5">
         <div class="container">
-            <h2 class="section-title text-center">Најново од сите области</h2>
-            <div class="row g-4" th:each="news : ${latestNews}">
-                <div class="col-md-4">
-                    <div class="card news-card shadow-sm h-100">
-                        <div class="card-body">
-                            <h5 class="card-title" th:text="${news.title}">Наслов</h5>
-                            <p class="card-text" th:text="${news.shortContent}">Кратка содржина...</p>
-                        </div>
+            <h2 class="section-title text-center">Најнови објави</h2>
+            <div class="row g-4" th:if="${latestPosts != null}">
+                <div class="col-md-4" th:each="post : ${latestPosts}">
+                    <div class="card news-card p-3">
+                        <h5 th:text="${post.title}">Наслов</h5>
+                        <p th:text="${post.description}">Опис</p>
+                        <p><small th:text="${#temporals.format(post.createdAt, 'dd.MM.yyyy HH:mm')}">Дата</small></p>
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
 

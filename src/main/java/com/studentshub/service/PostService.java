@@ -15,5 +15,7 @@ public interface PostService {
     void deletePost(Long id);
     Map<PostCategory, Post> getLatestPostPerCategory();
     List<Post> getPostsByUsername(String username);
+    List<Post> getLatestThreePosts();
+
 }
 

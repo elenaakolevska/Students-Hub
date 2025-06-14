@@ -63,11 +63,26 @@
                 <strong>Статус:</strong>
                 <span th:text="${post.found} ? 'Веќе најдено' : 'Слободно'"></span>
             </p>
+            <div class="mb-3">
+                <strong>Објавил:</strong>
+                <span th:text="${post.owner.username}" class="ms-2"></span>
+                <span th:text="${#temporals.format(post.createdAt, 'dd-MM-yyyy HH:mm')}" class="ms-2 text-muted"></span>
+            </div>
+<!--            <div class="mb-4">-->
+<!--                <a th:href="@{'/chat/' + ${post.owner.username}}"-->
+<!--                   class="btn btn-primary">-->
+<!--                    <i class="bi bi-chat-dots"></i> Прати порака-->
+<!--                </a>-->
+<!--            </div>-->
 
             <div class="d-flex justify-content-center gap-3 mt-4 btn-group-custom">
-                <a th:href="@{'/housing-posts/edit/' + ${post.id}}" class="btn btn-primary">Уреди</a>
+                <a th:href="@{'/chat/' + ${post.owner.username}}"
+                   class="btn btn-warning">
+                    <i class="bi bi-chat-dots"></i> Прати порака
+                </a>
+                <a th:href="@{'/housing-posts/edit/' + ${post.id}}" th:if="${currentUser.username == post.owner.username}" class="btn btn-primary">Уреди</a>
 
-                <form th:action="@{'/housing-posts/delete/' + ${post.id}}" method="post"
+                <form th:action="@{'/housing-posts/delete/' + ${post.id}}" th:if="${currentUser.username == post.owner.username}" method="post"
                       onsubmit="return confirm('Дали сте сигурни дека сакате да го избришете сместувањето?');">
                     <button type="submit" class="btn btn-danger">Избриши</button>
                 </form>

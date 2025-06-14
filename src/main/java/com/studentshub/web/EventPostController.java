@@ -1,12 +1,15 @@
 package com.studentshub.web;
 
 import com.studentshub.model.EventPost;
+import com.studentshub.model.User;
 import com.studentshub.model.enumerations.EventCategory;
 import com.studentshub.service.EventPostService;
+import com.studentshub.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -14,9 +17,11 @@ import java.util.List;
 public class EventPostController {
 
     private final EventPostService eventPostService;
+    private final UserService userService;
 
-    public EventPostController(EventPostService eventPostService) {
+    public EventPostController(EventPostService eventPostService, UserService userService) {
         this.eventPostService = eventPostService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -32,6 +37,8 @@ public class EventPostController {
     @GetMapping("/{id}")
     public String viewEventPost(@PathVariable Long id, Model model) {
         model.addAttribute("eventPost", eventPostService.getEventPostById(id));
+        User currentUser = userService.getCurrentUser();
+        model.addAttribute("currentUser", currentUser);
         return "event-posts/details";
     }
 
@@ -45,8 +52,8 @@ public class EventPostController {
     }
 
     @PostMapping
-    public String createEventPost(@ModelAttribute EventPost eventPost) {
-        eventPostService.createEventPost(eventPost);
+    public String createEventPost(@ModelAttribute EventPost post, Principal principal) {
+        eventPostService.createEventPost(post, principal.getName());
         return "redirect:/event-posts";
     }
 

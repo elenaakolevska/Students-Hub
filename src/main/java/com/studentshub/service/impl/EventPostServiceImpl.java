@@ -1,21 +1,26 @@
 package com.studentshub.service.impl;
 
 import com.studentshub.model.EventPost;
+import com.studentshub.model.User;
 import com.studentshub.model.enumerations.EventCategory;
 import com.studentshub.model.exceptions.ResourceNotFoundException;
 import com.studentshub.repository.EventPostRepository;
 import com.studentshub.service.EventPostService;
+import com.studentshub.service.UserService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class EventPostServiceImpl implements EventPostService {
 
     private final EventPostRepository eventPostRepository;
+    private  final UserService userService;
 
-    public EventPostServiceImpl(EventPostRepository eventPostRepository) {
+    public EventPostServiceImpl(EventPostRepository eventPostRepository, UserService userService) {
         this.eventPostRepository = eventPostRepository;
+        this.userService = userService;
     }
     @Override
     public List<EventPost> getAllEventPosts() {
@@ -23,7 +28,10 @@ public class EventPostServiceImpl implements EventPostService {
     }
 
     @Override
-    public EventPost createEventPost(EventPost post) {
+    public EventPost createEventPost(EventPost post, String username) {
+        // Get the logged-in user
+        User owner = userService.getUserByUsername(username);
+
         EventPost newPost = new EventPost();
         newPost.setEventCategory(post.getEventCategory());
         newPost.setLocation(post.getLocation());
@@ -33,9 +41,13 @@ public class EventPostServiceImpl implements EventPostService {
         newPost.setImageUrl(post.getImageUrl());
         newPost.setTitle(post.getTitle());
         newPost.setDescription(post.getDescription());
+
+        // Set the owner and creation time
+        newPost.setOwner(owner);
+        newPost.setCreatedAt(LocalDateTime.now());
+
         return eventPostRepository.save(newPost);
     }
-
 
     @Override
     public List<EventPost> getEventPostsByCategory(EventCategory category) {
