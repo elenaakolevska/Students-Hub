@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.stream.Collectors;
 //
 //@Controller
 //@RequestMapping("/chat")
@@ -86,6 +86,63 @@ import java.util.Optional;
 //
 //}
 
+//@Controller
+//@RequestMapping("/chat")
+//public class ChatController {
+//
+//    @Autowired
+//    private ChatService chatService;
+//
+//    @Autowired
+//    private UserRepository userRepo;
+//
+//    // Show dashboard with optional chat if username is provided
+//    @GetMapping({"", "/{username}"})
+//    public String dashboardOrChat(@PathVariable(required = false) String username,
+//                                  Principal principal,
+//                                  Model model) {
+//        if (principal == null) {
+//            return "redirect:/users/login";
+//        }
+//
+//        Optional<User> optionalUser = userRepo.findByUsername(principal.getName());
+//        if (optionalUser.isEmpty()) {
+//            return "redirect:/users/login?error=user_not_found";
+//        }
+//        User currentUser = optionalUser.get();
+//
+//        // All users except current
+//        List<User> allUsers = userRepo.findAll()
+//                .stream()
+//                .filter(u -> !u.getUsername().equals(currentUser.getUsername()))
+//                .toList();
+//
+//        model.addAttribute("chatPartners", allUsers);
+//        model.addAttribute("currentUser", currentUser);
+//
+//        if (username != null && !username.isBlank()) {
+//            Optional<User> optionalOther = userRepo.findByUsername(username);
+//            if (optionalOther.isPresent()) {
+//                User other = optionalOther.get();
+//                model.addAttribute("receiver", other);
+//                model.addAttribute("messages", chatService.getChat(currentUser, other));
+//            }
+//            else {
+//                // If user not found, just show dashboard without chat
+//                model.addAttribute("receiver", null);
+//                model.addAttribute("messages", null);
+//            }
+//        } else {
+//            // No user selected for chat
+//            model.addAttribute("receiver", null);
+//            model.addAttribute("messages", null);
+//        }
+//
+//        return "chat/dashboard";  // your combined Thymeleaf template name
+//    }
+//}
+
+
 @Controller
 @RequestMapping("/chat")
 public class ChatController {
@@ -96,7 +153,6 @@ public class ChatController {
     @Autowired
     private UserRepository userRepo;
 
-    // Show dashboard with optional chat if username is provided
     @GetMapping({"", "/{username}"})
     public String dashboardOrChat(@PathVariable(required = false) String username,
                                   Principal principal,
@@ -111,33 +167,62 @@ public class ChatController {
         }
         User currentUser = optionalUser.get();
 
-        // All users except current
-        List<User> allUsers = userRepo.findAll()
-                .stream()
-                .filter(u -> !u.getUsername().equals(currentUser.getUsername()))
-                .toList();
+        // Get chat partners
+        List<User> chatPartners = chatService.getChatPartners(currentUser);
 
-        model.addAttribute("chatPartners", allUsers);
+        // Sort chat partners by latest message timestamp (descending)
+        chatPartners.sort((u1, u2) -> {
+            LocalDateTime t1 = chatService.getLastMessageTimestamp(currentUser, u1).orElse(LocalDateTime.MIN);
+            LocalDateTime t2 = chatService.getLastMessageTimestamp(currentUser, u2).orElse(LocalDateTime.MIN);
+            return t2.compareTo(t1);  // latest first
+        });
+
+        // Get unread counts
+        Map<User, Long> unreadCounts = chatService.getUnreadMessageCounts(currentUser);
+
+        // Set of users with unread messages
+        Set<String> usersWithUnreadMessages = unreadCounts.entrySet().stream()
+                .filter(e -> e.getValue() > 0)
+                .map(e -> e.getKey().getUsername())
+                .collect(Collectors.toSet());
+
+        model.addAttribute("chatPartners", chatPartners);
         model.addAttribute("currentUser", currentUser);
+        model.addAttribute("unreadCounts", unreadCounts);
+        model.addAttribute("usersWithUnreadMessages", usersWithUnreadMessages);
 
         if (username != null && !username.isBlank()) {
             Optional<User> optionalOther = userRepo.findByUsername(username);
             if (optionalOther.isPresent()) {
                 User other = optionalOther.get();
+
+                // Mark messages as read when opening chat
+                chatService.markMessagesAsRead(other, currentUser);
+
                 model.addAttribute("receiver", other);
                 model.addAttribute("messages", chatService.getChat(currentUser, other));
-            }
-            else {
-                // If user not found, just show dashboard without chat
+
+                // Refresh unread counts after marking as read
+                unreadCounts = chatService.getUnreadMessageCounts(currentUser);
+
+                // Update set after marking as read
+                usersWithUnreadMessages = unreadCounts.entrySet().stream()
+                        .filter(e -> e.getValue() > 0)
+                        .map(e -> e.getKey().getUsername())
+                        .collect(Collectors.toSet());
+
+                model.addAttribute("unreadCounts", unreadCounts);
+                model.addAttribute("usersWithUnreadMessages", usersWithUnreadMessages);
+            } else {
                 model.addAttribute("receiver", null);
                 model.addAttribute("messages", null);
             }
         } else {
-            // No user selected for chat
             model.addAttribute("receiver", null);
             model.addAttribute("messages", null);
         }
 
-        return "chat/dashboard";  // your combined Thymeleaf template name
+        return "chat/dashboard";
     }
+
 }
