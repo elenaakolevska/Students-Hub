@@ -18,20 +18,27 @@ public class DataInitializer {
     private final HousingPostRepository housingPostRepository;
     private final InternshipPostRepository internshipPostRepository;
     private final MaterialPostRepository materialPostRepository;
-
+    private final TutorPostRepository tutorPostRepository;
+    private final TransportPostRepository transportPostRepository;
+    private  User adminUser;
     public DataInitializer(
             EventPostRepository eventPostRepository,
             UserRepository userRepository,
             HousingPostRepository housingPostRepository,
             InternshipPostRepository internshipPostRepository,
-            MaterialPostRepository materialPostRepository
+            MaterialPostRepository materialPostRepository,
+            TutorPostRepository tutorPostRepository,
+            TransportPostRepository transportPostRepository
     ) {
         this.eventPostRepository = eventPostRepository;
         this.userRepository = userRepository;
         this.housingPostRepository = housingPostRepository;
         this.internshipPostRepository = internshipPostRepository;
         this.materialPostRepository = materialPostRepository;
+        this.tutorPostRepository = tutorPostRepository;
+        this.transportPostRepository = transportPostRepository;
     }
+
 
     private HousingPost createHousingPost(String title, String description, String municipality, String location,
                                           Integer price, List<String> images, boolean isFound, User owner) {
@@ -48,8 +55,27 @@ public class DataInitializer {
         post.setCategory(PostCategory.HOUSING);
         return post;
     }
+    private TransportPost createTransportPost(LocalDateTime departureDatetime, String providerName,
+                                              String locationFrom, String locationTo, Integer price,
+                                              String title, String description, PostCategory category, User owner) {
+        TransportPost post = new TransportPost();
+        post.setDepartureDatetime(departureDatetime);
+        post.setProviderName(providerName);
+        post.setLocationFrom(locationFrom);
+        post.setLocationTo(locationTo);
+        post.setPrice(price);
+        post.setTitle(title);
+        post.setDescription(description);
+        post.setCategory(category);
+        post.setOwner(owner);
+        post.setCreatedAt(LocalDateTime.now());
 
-   // @PostConstruct
+        return post;
+    }
+
+
+
+    @PostConstruct
     public void initData() {
         User adminUser = userRepository.findByUsername("admin")
                 .orElseGet(() -> {
@@ -171,7 +197,123 @@ public class DataInitializer {
                         now.minusDays(1), adminUser, PostCategory.MATERIAL, 4.6,
                         "/files/wp.pdf", List.of(), "wp.pdf")
         );
+        List<TutorPost> tutorPosts = List.of(
+                new TutorPost(
+                        null,
+                        "Ментор по Математика 1",
+                        "Имате проблем со интеграли и лимеси? Контактирајте ме!",
+                        now.minusDays(6),
+                        adminUser,
+                        PostCategory.TUTOR,
+                        "Весна Стојанова",
+                        "Природно-математички факултет",
+                        true,
+                        400,
+                        "Математика 1",
+                        adminUser
+                ),
 
+                new TutorPost(
+                        null,
+                        "Подготовка за Објектно Ориентирано Програмирање",
+                        "Вежби, проекти и објаснување на концепти од ООП.",
+                        now.minusDays(5),
+                        adminUser,
+                        PostCategory.TUTOR,
+                        "Иван Петров",
+                        "ФИНКИ",
+                        true,
+                        500,
+                        "ООП (Java)",
+                        adminUser
+                ),
+
+                new TutorPost(
+                        null,
+                        "Алгоритми и структури – туторство",
+                        "Објаснување на алгоритми, кодирање и анализа на сложеност.",
+                        now.minusDays(4),
+                        adminUser,
+                        PostCategory.TUTOR,
+                        "Марија Николовска",
+                        "ФИНКИ",
+                        false,
+                        600,
+                        "Алгоритми и структури на податоци",
+                        adminUser
+                ),
+
+                new TutorPost(
+                        null,
+                        "Бази на податоци – теорија и практично",
+                        "SQL, нормализација, ER модели – сè на едно место.",
+                        now.minusDays(3),
+                        adminUser,
+                        PostCategory.TUTOR,
+                        "Дамјан Стојанов",
+                        "ФИНКИ",
+                        true,
+                        450,
+                        "Бази на податоци",
+                        adminUser
+                ),
+
+                new TutorPost(
+                        null,
+                        "Програмирање 1 помош",
+                        "Закажи час за објаснување на основи на Java и решавање задачи.",
+                        now.minusDays(2),
+                        adminUser,
+                        PostCategory.TUTOR,
+                        "Марија Николовска",
+                        "ФИНКИ",
+                        false,
+                        350,
+                        "Програмирање 1",
+                        adminUser
+                ),
+
+                new TutorPost(
+                        null,
+                        "Веб програмирање – HTML, CSS, JS",
+                        "Работа на проекти, објаснување и помош со задачи.",
+                        now.minusDays(1),
+                        adminUser,
+                        PostCategory.TUTOR,
+                        "Иван Петров",
+                        "ФИНКИ",
+                        true,
+                        500,
+                        "Веб програмирање",
+                        adminUser
+                )
+        );
+
+
+        List<TransportPost> transportPosts = List.of(
+                createTransportPost(LocalDateTime.now().plusDays(1), "Express Trans", "Скопје", "Охрид", 800,
+                        "Трансфер Скопје-Охрид", "Брз и удобен трансфер со клима.", PostCategory.TRANSPORT, adminUser),
+
+                createTransportPost(LocalDateTime.now().plusDays(2), "City Bikes", "Битола", "Карпош", 500,
+                        "Изнајмување велосипеди", "Велосипеди за изнајмување со еден ден рент.", PostCategory.TRANSPORT, adminUser),
+
+                createTransportPost(LocalDateTime.now().plusHours(5), "Fast Bus", "Тетово", "Скопје", 300,
+                        "Автобус Тетово-Скопје", "Автобуски превоз два пати дневно.", PostCategory.TRANSPORT, adminUser),
+
+                createTransportPost(LocalDateTime.now().plusDays(3), "Moto Rent", "Струмица", "Валандово", 200,
+                        "Изнајмување мотор", "Мотор за изнајмување на дневна основа.", PostCategory.TRANSPORT, adminUser),
+
+                createTransportPost(LocalDateTime.now().plusDays(4), "Cargo Movers", "Скопје", "Битола", 500,
+                        "Транспорт на стока", "Безбедно транспортирање на стоки.", PostCategory.TRANSPORT, adminUser),
+
+                createTransportPost(LocalDateTime.now().plusHours(8), "Electric Scooters", "Куманово", "Скопје", 370,
+                        "Електрични тротинети", "Изнајмување на електрични тротинети за кратки патувања.", PostCategory.TRANSPORT, adminUser)
+        );
+
+        transportPostRepository.saveAll(transportPosts);
+
+
+        tutorPostRepository.saveAll(tutorPosts);
         materialPostRepository.saveAll(materialPosts);
         internshipPostRepository.saveAll(internshipPosts);
         housingPostRepository.saveAll(housingPosts);
