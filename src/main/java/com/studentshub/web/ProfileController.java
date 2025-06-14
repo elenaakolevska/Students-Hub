@@ -73,6 +73,7 @@ public class ProfileController {
             user.setLastName(userDto.getLastName());
             user.setEmail(userDto.getEmail());
             user.setEducation(userDto.getEducation());
+            user.setUsername(userDto.getUsername());
 
             // Ако има слика, сними ја
             if (profileImage != null && !profileImage.isEmpty()) {
