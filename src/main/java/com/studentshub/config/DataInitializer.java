@@ -1,15 +1,9 @@
 package com.studentshub.config;
 
-import com.studentshub.model.EventPost;
-import com.studentshub.model.HousingPost;
-import com.studentshub.model.InternshipPost;
-import com.studentshub.model.User;
+import com.studentshub.model.*;
 import com.studentshub.model.enumerations.EventCategory;
 import com.studentshub.model.enumerations.PostCategory;
-import com.studentshub.repository.EventPostRepository;
-import com.studentshub.repository.HousingPostRepository;
-import com.studentshub.repository.InternshipPostRepository;
-import com.studentshub.repository.UserRepository;
+import com.studentshub.repository.*;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 
@@ -23,14 +17,22 @@ public class DataInitializer {
     private final UserRepository userRepository;
     private final HousingPostRepository housingPostRepository;
     private final InternshipPostRepository internshipPostRepository;
+    private final MaterialPostRepository materialPostRepository;
 
-
-    public DataInitializer(EventPostRepository eventPostRepository, UserRepository userRepository, HousingPostRepository housingPostRepository, InternshipPostRepository internshipPostRepository) {
+    public DataInitializer(
+            EventPostRepository eventPostRepository,
+            UserRepository userRepository,
+            HousingPostRepository housingPostRepository,
+            InternshipPostRepository internshipPostRepository,
+            MaterialPostRepository materialPostRepository
+    ) {
         this.eventPostRepository = eventPostRepository;
         this.userRepository = userRepository;
         this.housingPostRepository = housingPostRepository;
         this.internshipPostRepository = internshipPostRepository;
+        this.materialPostRepository = materialPostRepository;
     }
+
     private HousingPost createHousingPost(String title, String description, String municipality, String location,
                                           Integer price, List<String> images, boolean isFound, User owner) {
         HousingPost post = new HousingPost();
@@ -47,7 +49,7 @@ public class DataInitializer {
         return post;
     }
 
-    //@PostConstruct
+   // @PostConstruct
     public void initData() {
         User adminUser = userRepository.findByUsername("admin")
                 .orElseGet(() -> {
@@ -143,8 +145,35 @@ public class DataInitializer {
                         "https://www.shutterstock.com/image-vector/abstract-technology-logo-260nw-623206427.jpg")
         );
 
-        internshipPostRepository.saveAll(internshipPosts);
 
+        List<MaterialPost> materialPosts = List.of(
+                new MaterialPost(null, "Алгоритми и Структури на Податоци", "Материјал за вежби и предавања.",
+                        now.minusDays(6), adminUser, PostCategory.MATERIAL, 4.8,
+                        "/files/beleski.txt", List.of(), "beleski.txt"),
+
+                new MaterialPost(null, "Основи на Бази на Податоци", "Прашања за испит и пример решени SQL задачи.",
+                        now.minusDays(5), adminUser, PostCategory.MATERIAL, 4.5,
+                        "/files/kolokviumski.txt", List.of(), "kolokviumski.txt"),
+
+                new MaterialPost(null, "Математика 1", "Материјали од предавања + збирка задачи.",
+                        now.minusDays(4), adminUser, PostCategory.MATERIAL, 4.7,
+                        "/files/223002.pdf", List.of(), "223002.pdf"),
+
+                new MaterialPost(null, "Мрежи и Комуникации", "Слајдови и кратки белешки.",
+                        now.minusDays(3), adminUser, PostCategory.MATERIAL, 4.3,
+                        "/files/Лабораториска вежба бр. 01 - одговори.doc", List.of(), "Лабораториска вежба бр. 01 - одговори.doc"),
+
+                new MaterialPost(null, "Програмирање 1", "Code examples и објаснувања на теми од Java.",
+                        now.minusDays(2), adminUser, PostCategory.MATERIAL, 4.9,
+                        "/files/prv kolokvium vezbi.txt", List.of(), "prv kolokvium vezbi.txt"),
+
+                new MaterialPost(null, "Веб Програмирање", "HTML, CSS и JS материјали.",
+                        now.minusDays(1), adminUser, PostCategory.MATERIAL, 4.6,
+                        "/files/wp.pdf", List.of(), "wp.pdf")
+        );
+
+        materialPostRepository.saveAll(materialPosts);
+        internshipPostRepository.saveAll(internshipPosts);
         housingPostRepository.saveAll(housingPosts);
         eventPostRepository.saveAll(posts);
     }
