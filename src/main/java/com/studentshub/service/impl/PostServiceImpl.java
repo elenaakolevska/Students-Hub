@@ -64,5 +64,10 @@ public class PostServiceImpl implements PostService {
         User user = userService.getUserByUsername(username);
         return postRepository.findAllByOwner(user);
     }
+    @Override
+    public List<Post> getLatestThreePosts() {
+        return postRepository.findTop3ByOrderByCreatedAtDesc();
+    }
+
 
 }

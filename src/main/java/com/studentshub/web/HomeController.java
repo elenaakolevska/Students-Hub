@@ -18,7 +18,8 @@ public class HomeController {
     @GetMapping("/")
     public String home(Model model) {
         model.addAttribute("categories", PostCategory.values());
-        model.addAttribute("latestPosts", postService.getLatestPostPerCategory());
+
+        model.addAttribute("latestPosts", postService.getLatestThreePosts());
         return "home";
     }
 
