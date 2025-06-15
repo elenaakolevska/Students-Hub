@@ -3,6 +3,7 @@ package com.studentshub.web;
 import com.studentshub.model.InternshipPost;
 import com.studentshub.model.User;
 import com.studentshub.model.enumerations.PostCategory;
+import com.studentshub.service.FavoriteService;
 import com.studentshub.service.InternshipPostService;
 import com.studentshub.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -18,10 +19,13 @@ public class InternshipPostController {
 
     private final InternshipPostService service;
     private final UserService userService;
+    private final FavoriteService favoriteService;
 
-    public InternshipPostController(InternshipPostService service, UserService userService) {
+
+    public InternshipPostController(InternshipPostService service, UserService userService, FavoriteService favoriteService) {
         this.service = service;
         this.userService = userService;
+        this.favoriteService = favoriteService;
     }
 
     @GetMapping
@@ -77,6 +81,7 @@ public class InternshipPostController {
 
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
+        favoriteService.deleteAllByPostId(id);
         service.delete(id);
         return "redirect:/internship-posts";
     }

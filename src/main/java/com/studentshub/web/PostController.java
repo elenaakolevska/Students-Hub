@@ -14,10 +14,13 @@ public class PostController {
 
     private final PostService postService;
     private final UserService userService;
+    private final FavoriteService favoriteService;
 
-    public PostController(PostService postService, UserService userService) {
+
+    public PostController(PostService postService, UserService userService, FavoriteService favoriteService) {
         this.postService = postService;
         this.userService = userService;
+        this.favoriteService = favoriteService;
     }
 
     @GetMapping
@@ -103,8 +106,9 @@ public String createPost(@ModelAttribute Post post, Principal principal) {
 
     @PostMapping("/delete/{id}")
     public String deletePost(@PathVariable Long id) {
-        postService.deletePost(id); // или како ти е имплементирано
-        return "redirect:/posts/my-posts"; // или каде и да сакаш да пренасочи после бришење
+        favoriteService.deleteAllByPostId(id);
+        postService.deletePost(id);
+        return "redirect:/posts/my-posts";
     }
 
 
