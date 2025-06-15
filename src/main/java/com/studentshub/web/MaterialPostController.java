@@ -119,7 +119,7 @@ public class MaterialPostController {
 
         try {
 
-            String fileName = post.getFileUrl().replace("/uploads/", "");
+            String fileName = Paths.get(post.getFileUrl()).getFileName().toString();
             Path filePath = Paths.get("materialUploads").resolve(fileName);
             Resource resource = new UrlResource(filePath.toUri());
 
