@@ -22,6 +22,16 @@ public class Message {
     private String content;
     private LocalDateTime timestamp;
 
+    private boolean read = false;
+
+    public boolean isRead() {
+        return read;
+    }
+
+    public void setRead(boolean read) {
+        this.read = read;
+    }
+
     public Message(Long id, User sender, User receiver, GroupChat group, String content, LocalDateTime timestamp) {
         this.id = id;
         this.sender = sender;

@@ -54,6 +54,16 @@ public class UserController {
         return "users/login";
     }
 
+    @GetMapping("/profile/{username}")
+    public String getUserProfile(@PathVariable String username, Model model) {
+        User user = userService.getUserByUsername(username);
+        if (user == null) {
+            // User not found - redirect with error param or show error page
+            return "redirect:/users?error=user_not_found";
+        }
+        model.addAttribute("user", user);
+        return "users/profileinfo";  // Template name, ensure this file exists
+    }
 
 
 }
