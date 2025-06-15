@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MaterialPostServiceImpl implements MaterialPostService {
@@ -33,6 +34,7 @@ public class MaterialPostServiceImpl implements MaterialPostService {
         newPost.setCategory(post.getCategory());
         newPost.setRating(post.getRating());
         newPost.setFileUrl(post.getFileUrl());
+        newPost.setSubject(post.getSubject());
         newPost.setOriginalFileName(post.getOriginalFileName());
 
         newPost.setTags(post.getTags());
@@ -65,6 +67,7 @@ public class MaterialPostServiceImpl implements MaterialPostService {
         existingPost.setOriginalFileName(updatedPost.getOriginalFileName());
         existingPost.setFileUrl(updatedPost.getFileUrl());
         existingPost.setTags(updatedPost.getTags());
+        existingPost.setSubject(updatedPost.getSubject());
 
         return repository.save(existingPost);
     }
@@ -73,4 +76,17 @@ public class MaterialPostServiceImpl implements MaterialPostService {
     public void delete(Long id) {
         repository.deleteById(id);
     }
+
+    @Override
+    public List<MaterialPost> findBySubject(String subject) {
+        return repository.findBySubjectContainingIgnoreCase(subject);
+    }
+    @Override
+    public List<String> findAllSubjects() {
+        return repository.findDistinctSubjects()
+                .stream()
+                .filter(s -> s != null && !s.trim().isEmpty())
+                .collect(Collectors.toList());
+    }
+
 }
