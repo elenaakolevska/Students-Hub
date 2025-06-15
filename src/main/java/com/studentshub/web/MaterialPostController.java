@@ -41,11 +41,25 @@ public class MaterialPostController {
     }
 
     @GetMapping
-    public String listMaterialPosts(Model model) {
-        List<MaterialPost> posts = materialPostService.findAll();
+    public String listMaterialPosts(@RequestParam(required = false) String subject, Model model) {
+        List<MaterialPost> posts;
+
+        if (subject == null || subject.isEmpty()) {
+            posts = materialPostService.findAll();
+        } else {
+            posts = materialPostService.findBySubject(subject);
+        }
+
+        List<String> allSubjects = materialPostService.findAllSubjects();
+
         model.addAttribute("materialPosts", posts);
+        model.addAttribute("subjects", allSubjects);
+        model.addAttribute("subject", subject);
+
         return "material-posts/list";
     }
+
+
 
     @GetMapping("/{id}")
     public String viewMaterialPost(@PathVariable Long id, Model model) {
@@ -71,22 +85,17 @@ public class MaterialPostController {
     ) {
         if (!file.isEmpty()) {
             try {
-                // 1. Апсолутна патека до C:\Users\Elena\StudentsHub\materialUploads
                 Path uploadPath = Paths.get(System.getProperty("user.home"), "StudentsHub", "materialUploads");
 
-                // 2. Креирање на директориум ако не постои
                 if (!Files.exists(uploadPath)) {
                     Files.createDirectories(uploadPath);
                 }
 
-                // 3. Име на фајл со timestamp
                 String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
 
-                // 4. Снимање на фајлот
                 Path filePath = uploadPath.resolve(fileName);
                 file.transferTo(filePath.toFile());
 
-                // 5. Сетирање на апсолутна патека (НЕ /files/, туку real file system path)
                 post.setFileUrl(filePath.toString());
                 post.setOriginalFileName(file.getOriginalFilename());
 
@@ -151,6 +160,14 @@ public class MaterialPostController {
             return ResponseEntity.internalServerError().build();
         }
     }
+
+    @GetMapping("/filter")
+    public String filterBySubject(@RequestParam String subject, Model model) {
+        List<MaterialPost> filteredPosts = materialPostService.findBySubject(subject);
+        model.addAttribute("materialPosts", filteredPosts);
+        return "material-posts/list";
+    }
+
 
 
 }

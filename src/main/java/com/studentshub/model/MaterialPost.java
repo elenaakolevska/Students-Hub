@@ -15,23 +15,31 @@ public class MaterialPost extends Post {
     @ManyToMany
     private List<Tag> tags;
     private String originalFileName;
+    private String subject;
 
 
-    public MaterialPost(Double rating, String fileUrl, List<Tag> tags) {
-        this.rating = rating;
-        this.fileUrl = fileUrl;
-        this.tags = tags;
-    }
+
+
 
     public MaterialPost() {
     }
 
-    public MaterialPost(Long id, String title, String description, LocalDateTime createdAt, User owner, PostCategory category, Double rating, String fileUrl, List<Tag> tags, String originalFileName) {
+    public MaterialPost(Long id, String title, String description, LocalDateTime createdAt, User owner, PostCategory category,
+                        Double rating, String fileUrl, List<Tag> tags, String originalFileName, String subject) {
         super(id, title, description, createdAt, owner, category);
         this.rating = rating;
         this.fileUrl = fileUrl;
         this.tags = tags;
         this.originalFileName = originalFileName;
+        this.subject = subject;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
     public String getOriginalFileName() {

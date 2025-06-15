@@ -75,7 +75,7 @@ public class DataInitializer {
 
 
 
-   // @PostConstruct
+    @PostConstruct
     public void initData() {
         User adminUser = userRepository.findByUsername("admin")
                 .orElseGet(() -> {
@@ -175,27 +175,27 @@ public class DataInitializer {
         List<MaterialPost> materialPosts = List.of(
                 new MaterialPost(null, "Алгоритми и Структури на Податоци", "Материјал за вежби и предавања.",
                         now.minusDays(6), adminUser, PostCategory.MATERIAL, 4.8,
-                        "/files/beleski.txt", List.of(), "beleski.txt"),
+                        "/files/beleski.txt", List.of(), "beleski.txt", "Алгоритми и Структури на Податоци"),
 
                 new MaterialPost(null, "Основи на Бази на Податоци", "Прашања за испит и пример решени SQL задачи.",
                         now.minusDays(5), adminUser, PostCategory.MATERIAL, 4.5,
-                        "/files/kolokviumski.txt", List.of(), "kolokviumski.txt"),
+                        "/files/kolokviumski.txt", List.of(), "kolokviumski.txt", "Бази на Податоци"),
 
                 new MaterialPost(null, "Математика 1", "Материјали од предавања + збирка задачи.",
                         now.minusDays(4), adminUser, PostCategory.MATERIAL, 4.7,
-                        "/files/223002.pdf", List.of(), "223002.pdf"),
+                        "/files/223002.pdf", List.of(), "223002.pdf", "Математика 1"),
 
                 new MaterialPost(null, "Мрежи и Комуникации", "Слајдови и кратки белешки.",
                         now.minusDays(3), adminUser, PostCategory.MATERIAL, 4.3,
-                        "/files/Лабораториска вежба бр. 01 - одговори.doc", List.of(), "Лабораториска вежба бр. 01 - одговори.doc"),
+                        "/files/Лабораториска вежба бр. 01 - одговори.doc", List.of(), "Лабораториска вежба бр. 01 - одговори.doc", "Компјутерски Mрежи и Безбедност"),
 
                 new MaterialPost(null, "Програмирање 1", "Code examples и објаснувања на теми од Java.",
                         now.minusDays(2), adminUser, PostCategory.MATERIAL, 4.9,
-                        "/files/prv kolokvium vezbi.txt", List.of(), "prv kolokvium vezbi.txt"),
+                        "/files/prv kolokvium vezbi.txt", List.of(), "prv kolokvium vezbi.txt", "Структурно програмирање"),
 
                 new MaterialPost(null, "Веб Програмирање", "HTML, CSS и JS материјали.",
                         now.minusDays(1), adminUser, PostCategory.MATERIAL, 4.6,
-                        "/files/wp.pdf", List.of(), "wp.pdf")
+                        "/files/wp.pdf", List.of(), "wp.pdf", "Веб Програмирање")
         );
         List<TutorPost> tutorPosts = List.of(
                 new TutorPost(
