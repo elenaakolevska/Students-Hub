@@ -10,4 +10,7 @@ public interface MaterialPostService {
     List<MaterialPost> findAll();
     MaterialPost update(Long id, MaterialPost post);
     void delete(Long id);
+    List<MaterialPost> findBySubject(String subject);
+    List<String> findAllSubjects();
+
 }
