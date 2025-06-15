@@ -33,6 +33,8 @@ public class MaterialPostServiceImpl implements MaterialPostService {
         newPost.setCategory(post.getCategory());
         newPost.setRating(post.getRating());
         newPost.setFileUrl(post.getFileUrl());
+        newPost.setOriginalFileName(post.getOriginalFileName());
+
         newPost.setTags(post.getTags());
 
         newPost.setOwner(owner);
@@ -60,6 +62,7 @@ public class MaterialPostServiceImpl implements MaterialPostService {
         existingPost.setDescription(updatedPost.getDescription());
         existingPost.setCategory(updatedPost.getCategory());
         existingPost.setRating(updatedPost.getRating());
+        existingPost.setOriginalFileName(updatedPost.getOriginalFileName());
         existingPost.setFileUrl(updatedPost.getFileUrl());
         existingPost.setTags(updatedPost.getTags());
 

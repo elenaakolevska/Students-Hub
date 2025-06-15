@@ -67,24 +67,35 @@ public class MaterialPostController {
     ) {
         if (!file.isEmpty()) {
             try {
-                String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+                // 1. Апсолутна патека до C:\Users\Elena\StudentsHub\materialUploads
+                Path uploadPath = Paths.get(System.getProperty("user.home"), "StudentsHub", "materialUploads");
 
-                Path uploadPath = Paths.get("materialUploads");
+                // 2. Креирање на директориум ако не постои
                 if (!Files.exists(uploadPath)) {
                     Files.createDirectories(uploadPath);
                 }
+
+                // 3. Име на фајл со timestamp
+                String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+
+                // 4. Снимање на фајлот
                 Path filePath = uploadPath.resolve(fileName);
                 file.transferTo(filePath.toFile());
 
-                post.setFileUrl("/files/" + fileName);
+                // 5. Сетирање на апсолутна патека (НЕ /files/, туку real file system path)
+                post.setFileUrl(filePath.toString());
                 post.setOriginalFileName(file.getOriginalFilename());
+
             } catch (IOException e) {
                 e.printStackTrace();
+                throw new RuntimeException("Неуспешно прикачување на фајл");
             }
         }
+
         materialPostService.create(post, principal.getName());
         return "redirect:/material-posts";
     }
+
 
 
     @GetMapping("/edit/{id}")
@@ -113,14 +124,13 @@ public class MaterialPostController {
     @GetMapping("/download/{id}")
     public ResponseEntity<Resource> downloadFile(@PathVariable Long id) {
         MaterialPost post = materialPostService.findById(id);
+
         if (post == null || post.getFileUrl() == null) {
             return ResponseEntity.notFound().build();
         }
 
         try {
-
-            String fileName = Paths.get(post.getFileUrl()).getFileName().toString();
-            Path filePath = Paths.get("materialUploads").resolve(fileName);
+            Path filePath = Paths.get(post.getFileUrl());
             Resource resource = new UrlResource(filePath.toUri());
 
             if (!resource.exists() || !resource.isReadable()) {
@@ -128,11 +138,14 @@ public class MaterialPostController {
             }
 
             return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + post.getOriginalFileName() + "\"")
+                    .header(HttpHeaders.CONTENT_DISPOSITION,
+                            "attachment; filename=\"" + post.getOriginalFileName() + "\"")
                     .body(resource);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
     }
+
+
 }
