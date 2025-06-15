@@ -4,6 +4,7 @@ import com.studentshub.model.EventPost;
 import com.studentshub.model.User;
 import com.studentshub.model.enumerations.EventCategory;
 import com.studentshub.service.EventPostService;
+import com.studentshub.service.FavoriteService;
 import com.studentshub.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,10 +19,12 @@ public class EventPostController {
 
     private final EventPostService eventPostService;
     private final UserService userService;
+    private final FavoriteService favoriteService;
 
-    public EventPostController(EventPostService eventPostService, UserService userService) {
+    public EventPostController(EventPostService eventPostService, UserService userService, FavoriteService favoriteService) {
         this.eventPostService = eventPostService;
         this.userService = userService;
+        this.favoriteService = favoriteService;
     }
 
     @GetMapping
@@ -74,6 +77,7 @@ public class EventPostController {
 
     @PostMapping("/delete/{id}")
     public String deleteEventPost(@PathVariable Long id) {
+        favoriteService.deleteAllByPostId(id);
         eventPostService.deleteEventPost(id);
         return "redirect:/event-posts";
     }

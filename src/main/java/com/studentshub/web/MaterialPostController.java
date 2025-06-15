@@ -3,6 +3,7 @@ package com.studentshub.web;
 import com.studentshub.model.MaterialPost;
 import com.studentshub.model.User;
 import com.studentshub.model.enumerations.PostCategory;
+import com.studentshub.service.FavoriteService;
 import com.studentshub.service.MaterialPostService;
 import com.studentshub.service.TagService;
 import com.studentshub.service.UserService;
@@ -30,10 +31,13 @@ public class MaterialPostController {
 
     private final MaterialPostService materialPostService;
     private final UserService userService;
+    private final FavoriteService favoriteService;
 
-    public MaterialPostController(MaterialPostService materialPostService, UserService userService) {
+
+    public MaterialPostController(MaterialPostService materialPostService, UserService userService, FavoriteService favoriteService) {
         this.materialPostService = materialPostService;
         this.userService = userService;
+        this.favoriteService = favoriteService;
     }
 
     @GetMapping
@@ -117,6 +121,7 @@ public class MaterialPostController {
 
     @PostMapping("/delete/{id}")
     public String deleteMaterialPost(@PathVariable Long id) {
+        favoriteService.deleteAllByPostId(id);
         materialPostService.delete(id);
         return "redirect:/material-posts";
     }

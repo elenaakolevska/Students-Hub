@@ -2,6 +2,7 @@ package com.studentshub.web;
 
 import com.studentshub.model.HousingPost;
 import com.studentshub.model.User;
+import com.studentshub.service.FavoriteService;
 import com.studentshub.service.HousingPostService;
 import com.studentshub.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -20,9 +21,13 @@ public class HousingPostController {
 
     private final HousingPostService service;
     private final UserService userService;
-    public HousingPostController(HousingPostService service, UserService userService) {
+    private final FavoriteService favoriteService;
+
+
+    public HousingPostController(HousingPostService service, UserService userService, FavoriteService favoriteService) {
         this.service = service;
         this.userService = userService;
+        this.favoriteService = favoriteService;
     }
 
     @GetMapping
@@ -93,6 +98,7 @@ public class HousingPostController {
 
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
+        favoriteService.deleteAllByPostId(id);
         service.delete(id);
         return "redirect:/housing-posts";
     }
