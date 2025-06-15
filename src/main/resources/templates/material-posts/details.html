@@ -36,7 +36,7 @@
 
             <p>
                 <strong>Фајл:</strong>
-                <a th:href="@{'/material-posts/download/' + ${materialPost.id}}" download class="btn btn-outline-success btn-sm ms-2" target="_blank">
+                <a th:href="@{${materialPost.fileUrl}}" download class="btn btn-outline-success btn-sm ms-2" target="_blank">
                     Преземи
                 </a>
             </p>
