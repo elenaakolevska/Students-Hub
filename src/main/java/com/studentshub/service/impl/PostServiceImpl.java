@@ -6,6 +6,7 @@ import com.studentshub.model.enumerations.PostCategory;
 import com.studentshub.model.exceptions.PostNotFoundException;
 import com.studentshub.repository.PostRepository;
 import com.studentshub.service.PostService;
+import com.studentshub.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.EnumMap;
@@ -16,9 +17,11 @@ import java.util.Map;
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
+    private final UserService userService;
 
-    public PostServiceImpl(PostRepository postRepository) {
+    public PostServiceImpl(PostRepository postRepository, UserService userService) {
         this.postRepository = postRepository;
+        this.userService = userService;
     }
 
     @Override
@@ -56,4 +59,15 @@ public class PostServiceImpl implements PostService {
         }
         return result;
     }
+    @Override
+    public List<Post> getPostsByUsername(String username) {
+        User user = userService.getUserByUsername(username);
+        return postRepository.findAllByOwner(user);
+    }
+    @Override
+    public List<Post> getLatestThreePosts() {
+        return postRepository.findTop3ByOrderByCreatedAtDesc();
+    }
+
+
 }

@@ -1,9 +1,12 @@
 package com.studentshub.service.impl;
 
 import com.studentshub.model.*;
+import com.studentshub.model.exceptions.DuplicateUsernameException;
 import com.studentshub.model.exceptions.ResourceNotFoundException;
 import com.studentshub.repository.UserRepository;
 import com.studentshub.service.UserService;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +31,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User user) {
+        if(userRepository.findByUsername(user.getUsername()).isPresent()){
+            throw new DuplicateUsernameException(user.getUsername());
+        }
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
 
@@ -56,6 +62,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
+    }
+
+
+    public User getCurrentUser() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Корисник не е пронајден: " + username));
     }
 }
 

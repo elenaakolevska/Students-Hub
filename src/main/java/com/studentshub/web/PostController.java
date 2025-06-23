@@ -14,10 +14,13 @@ public class PostController {
 
     private final PostService postService;
     private final UserService userService;
+    private final FavoriteService favoriteService;
 
-    public PostController(PostService postService, UserService userService) {
+
+    public PostController(PostService postService, UserService userService, FavoriteService favoriteService) {
         this.postService = postService;
         this.userService = userService;
+        this.favoriteService = favoriteService;
     }
 
     @GetMapping
@@ -69,11 +72,18 @@ public class PostController {
     </form>
 
      */
-    @PostMapping("/create")
-    public String createPost(@ModelAttribute Post post) {
-        postService.createPost(post);
-        return "redirect:/posts";
-    }
+@PostMapping("/posts/create")
+public String createPost(@ModelAttribute Post post, Principal principal) {
+    User owner = userService.getUserByUsername(principal.getName());
+
+    
+    post.setOwner(owner);
+    post.setCreatedAt(LocalDateTime.now());
+    
+    postService.createPost(post);
+    return "redirect:/posts";
+}
+
 
     @GetMapping("/{id}")
     public String getPostDetails(@PathVariable Long id, Model model) {
@@ -81,4 +91,26 @@ public class PostController {
         model.addAttribute("post", post);
         return "posts/details";
     }
+
+    @GetMapping("/my-posts")
+    public String getMyPosts(Model model, Principal principal) {
+        if (principal == null) {
+            return "redirect:/login";
+        }
+
+        String username = principal.getName();
+        List<Post> myPosts = postService.getPostsByUsername(username);
+        model.addAttribute("posts", myPosts);
+        return "posts/my-posts";
+    }
+
+    @PostMapping("/delete/{id}")
+    public String deletePost(@PathVariable Long id) {
+        favoriteService.deleteAllByPostId(id);
+        postService.deletePost(id);
+        return "redirect:/posts/my-posts";
+    }
+
+
+
 }

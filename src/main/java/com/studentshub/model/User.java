@@ -3,13 +3,17 @@ package com.studentshub.model;
 import jakarta.persistence.*;
 
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
 
-public class User {
+@Table(name = "app_user")
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +26,9 @@ public class User {
     private String email;
     private String password;
     private String education;
+    private String profileImageUrl;
     private LocalDateTime createdAt;
+
 
     @OneToMany(mappedBy = "owner")
     private List<Post> posts;
@@ -36,8 +42,9 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<GroupChatMembers> groupMemberships;
 
-    public User() {
-    }
+        public User() {
+
+        }
 
     public User(Long id, String firstName, String lastName, String username, String email, String password, String education, LocalDateTime createdAt, List<Post> posts, List<Favorite> favorites, List<Message> sentMessages, List<GroupChatMembers> groupMemberships) {
         this.id = id;
@@ -80,6 +87,26 @@ public class User {
 
     public String getUsername() {
         return username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return UserDetails.super.isAccountNonExpired();
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return UserDetails.super.isAccountNonLocked();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return UserDetails.super.isCredentialsNonExpired();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return UserDetails.super.isEnabled();
     }
 
     public void setUsername(String username) {
@@ -142,11 +169,26 @@ public class User {
         this.groupMemberships = groupMemberships;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
+
+
 }

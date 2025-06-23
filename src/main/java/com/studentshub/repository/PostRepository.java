@@ -15,6 +15,8 @@ import java.util.Optional;
 public interface PostRepository extends JpaRepository<Post, Long>, JpaSpecificationExecutor<Post> {
     List<Post> findByOwner(User owner);
     Optional<Post> findTopByCategoryOrderByCreatedAtDesc(PostCategory category);
+    List<Post> findAllByOwner(User user);
+    List<Post> findTop3ByOrderByCreatedAtDesc();
 
 }
 

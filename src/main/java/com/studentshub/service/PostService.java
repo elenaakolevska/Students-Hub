@@ -14,5 +14,8 @@ public interface PostService {
     Post updatePost(Post post);
     void deletePost(Long id);
     Map<PostCategory, Post> getLatestPostPerCategory();
+    List<Post> getPostsByUsername(String username);
+    List<Post> getLatestThreePosts();
+
 }
 

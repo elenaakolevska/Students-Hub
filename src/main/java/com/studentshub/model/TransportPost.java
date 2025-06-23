@@ -11,19 +11,27 @@ public class TransportPost extends Post {
     private String providerName;
     private String locationFrom;
     private String locationTo;
-    private Double price;
+    private Integer price;
+    private String contactInfo;
 
-    public TransportPost(LocalDateTime departureDatetime, String providerName, String locationFrom, String locationTo, Double price) {
+
+    public TransportPost(LocalDateTime departureDatetime, String providerName, String locationFrom, String locationTo, Integer price, String contactInfo) {
         this.departureDatetime = departureDatetime;
         this.providerName = providerName;
         this.locationFrom = locationFrom;
         this.locationTo = locationTo;
         this.price = price;
+        this.contactInfo = contactInfo;
     }
 
     public TransportPost() {
     }
-
+    public String getContactInfo() {
+        return contactInfo;
+    }
+    public void setContactInfo(String contactInfo) {
+        this.contactInfo = contactInfo;
+    }
     public LocalDateTime getDepartureDatetime() {
         return departureDatetime;
     }
@@ -56,11 +64,11 @@ public class TransportPost extends Post {
         this.locationTo = locationTo;
     }
 
-    public Double getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 }

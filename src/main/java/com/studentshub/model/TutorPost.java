@@ -1,9 +1,13 @@
 package com.studentshub.model;
 
+import com.studentshub.model.enumerations.PostCategory;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -11,20 +15,51 @@ public class TutorPost extends Post {
     private String tutorName;
     private String faculty;
     private boolean worksOnline;
-    private Double price;
+    private Integer price;
+    private String subject;
+    @ManyToOne
+    @JoinColumn(name = "tutor_id")
+    private User tutor;
 
-    @ManyToMany
-    private List<Tag> tags;
 
-    public TutorPost(String tutorName, String faculty, boolean worksOnline, Double price, List<Tag> tags) {
+
+    public TutorPost(String tutorName, String faculty, boolean worksOnline, Integer price, String subject, User tutor) {
         this.tutorName = tutorName;
         this.faculty = faculty;
         this.worksOnline = worksOnline;
         this.price = price;
-        this.tags = tags;
+        this.subject = subject;
+        this.tutor = tutor;
+    }
+    public TutorPost(Long id, String title, String description, LocalDateTime createdAt, User owner, PostCategory category,
+                     String tutorName, String faculty, boolean worksOnline, Integer price, String subject, User tutor) {
+        super(id, title, description, createdAt, owner, category);
+        this.tutorName = tutorName;
+        this.faculty = faculty;
+        this.worksOnline = worksOnline;
+        this.price = price;
+        this.subject = subject;
+        this.tutor = tutor;
     }
 
+
     public TutorPost() {
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public User getTutor() {
+        return tutor;
+    }
+
+    public void setTutor(User tutor) {
+        this.tutor = tutor;
     }
 
     public String getTutorName() {
@@ -51,19 +86,13 @@ public class TutorPost extends Post {
         this.worksOnline = worksOnline;
     }
 
-    public Double getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
-    public List<Tag> getTags() {
-        return tags;
-    }
 
-    public void setTags(List<Tag> tags) {
-        this.tags = tags;
-    }
 }
