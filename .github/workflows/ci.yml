@@ -8,6 +8,21 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: studentsDb
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -17,6 +32,14 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '21'
+
+      - name: Wait for PostgreSQL to be ready
+        run: |
+          echo "Waiting for PostgreSQL..."
+          until pg_isready -h localhost -p 5432 -U postgres; do
+            sleep 2
+          done
+          echo "PostgreSQL is ready!"
 
       - name: Build with Maven
         run: mvn clean package --file pom.xml
